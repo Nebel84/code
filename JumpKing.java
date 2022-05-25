@@ -10,67 +10,155 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JFrame;
+import javax.swing.ImageIcon;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.swing.JPanel;
-                                                
-/*
-* Dieses Programm 
-*
-* Autor: Andreas Herburger
-* Umgebung: JDK 1.8.0_291, JavaEditor 19.06, Windows 10
-* Erstelldatum: 10.05.2021 
-* 
-*/
+   
 
+import javax.swing.*;   
+
+import java.net.URL;             
+
+
+import java.awt.*;
+import java.awt.event.*;
+import java.net.URL;
+import javax.swing.*;                           
+/*
+* JumpKing
+*
+* Autor: Luis Bauer
+* Erstelldatum: 21.05.2022
+*
+*Quellen:
+* 
+*  -Implemetierung vom Hintergrundbild (verändert): https://stackoverflow.com/questions/12082660/background-image-for-simple-game
+*  -
+*  -
+*  -
+*  -
+*  -               
+*/
+   
 public class JumpKing extends JFrame implements  MouseListener, KeyListener {
   
   //Attribute 
   JPanel grafik;
   Rectangle ground, player;
   Random rand = new Random();
+  JLabel L1;
+  
+  //Image background;
+
+      
+  private JFrame frame;
+  private ImageIcon carIcon;
+   
+  public Image background;
+  public Image bg;  
+  
   
   int takt, punkte, highscore, timer;
-  final int breite = 1000, hoehe = 700;
+  final int breite = 1440, hoehe = 1080;
   final int START_TEMPO = 1;
-  int vxBall, vyBall; 
+  int vxBall, vyBall, sprungmin=28; 
   int tempo = START_TEMPO;                                                                                               
   boolean gestartet;
   boolean verloren, keyhold, space, left, right;
   final Color HINWEIS = new Color(102,0,153);
+  double faktor=1.2,height;
+  
+  
+
   
   public JumpKing() //Konstruktor
   { 
+    
+    
+    
+    
+    
+    
     Timer zaehler = new Timer(20,ae -> doTimerTick());   // Timer: Alle 20ms wird doTimerTick aufgerufen
     
     grafik = new JPanel() {      // Auf dieses Panel wird das Spiel gerendert
       protected void paintComponent(Graphics g){       // Wird von Swing aufgerufen um ein Neuzeichnen zu veranlassen
-        super.paintComponent(g);                    
+        
+        
+        super.paintComponent(g);    
+        Image bg = Toolkit.getDefaultToolkit().getImage("D:\\Luis\\Desktop\\JumpKing\\1.png");      
+        
+        
+        g.drawImage(bg, 0, 0, null);
+        
+        
+        
+        Image idle = Toolkit.getDefaultToolkit().getImage("D:\\Luis\\Desktop\\JumpKing\\idle.png");      
+        
+        
+        g.drawImage(idle, player.x, player.y, null);
+        
+        
+        
+        
+        
+        
         JumpKing.this.paintPanel(g);    //  Aufruf der eigentlichen Zeichnenoperation
       }
     };
+    
     add(grafik);
     
+    
+    
+    
+    
+    setSize(1440, 1080);
     setTitle("JumpKing");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(breite, hoehe);
+    setSize(1455, 1118);
     
-    ground = new Rectangle(100,200, 2000, 700) ;   // Speichert die Positionsdaten des Groundss
-    player =  new Rectangle(100,200, 100, 200) ;     // Speichert die Positionsdaten des Spielers
+    /*
+    carIcon = new ImageIcon(this.getClass().getResource(""));
+    grafik
+    */
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ground = new Rectangle(0,983, 2000, 1) ;   // Speichert die Positionsdaten des Grounds (ground =983, bzw.783!!!)
+    player =  new Rectangle(100,200, 93, 103) ;   // Speichert die Positionsdaten des Spielers
+    
+    
+    
     initGame();
     
     addMouseListener(this);
     addKeyListener(this);
-    setResizable(false);
+    setResizable(true);
+    //setExtendedState(JFrame.MAXIMIZED_BOTH); 
+    //setUndecorated(true);
+    
     setVisible(true);
+    
+    
+    
     
     zaehler.start();  // Timer starten
   }
-  
-  // Anfangswerte beim Neustart
+    
+    // Anfangswerte beim Neustart
   private void initGame() {
-    ground.x=0; ground.y = hoehe-50 ;
+    //ground.x=90; ground.y = hoehe-50 ;
     player.x=breite/2; player.y = hoehe/2 ;
     verloren = false;
     ///vxBall = 3 + rand.nextInt(7);    // Ball soll mit Zufallswerten nach oben fliegen
@@ -79,18 +167,39 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     punkte = 0;
     takt = 0;
   }
-  
-  // Operation zum Neuzeichen der grafischen Benutzeroberfläche
+    
+    // Operation zum Neuzeichen der grafischen Benutzeroberfläche
   public void paintPanel(Graphics g){
     
     // Ball und Paddle zeichnen (wird immer gemacht)
-    g.setColor(Color.CYAN);
-    g.fillRect(0,0,breite,hoehe);
-    g.setColor(Color.ORANGE);
-    g.fillRect(ground.x,ground.y,ground.width,ground.height);
-    g.setColor(Color.GREEN);
-    g.fillRect(player.x,player.y,player.width,player.height);
+    
+    
+    
+    
+    
+    
+    
+    Color invis = new Color(255, 255, 255,70);
+    
+    g.setColor(Color.blue);
+    g.fillRect(0,983, 2000, 1);
+    
+    
+    
+    
+    
+    g.setColor(invis);
+    g.fillRect(player.x,player.y,93, 103);
+
+    
     g.setColor(Color.RED);
+    
+    
+    
+    
+    
+    
+    
     
     // Vor Programmstart
     if (!gestartet && !verloren ) {
@@ -145,10 +254,12 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       g.drawString("Achtung: Beim Schließen des Programms geht jeglicher Spielfortschritt verloren!", 30, 500);
     } 
   }
-  
-  // Hier wird bei jedem Timer Tick das Szenario neu berechnet und ein Neuzeichnen veranlasst
+    
+    // Hier wird bei jedem Timer Tick das Szenario neu berechnet und ein Neuzeichnen veranlasst
   private void doTimerTick(){
     takt = takt +1;
+    
+    
     
     if (gestartet) {
       player.y=player.y+10;
@@ -167,7 +278,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           System.out.println("Wand");
         } else if (player.intersects(ground)) {
             
-            System.out.println("Paddle");
+            //System.out.println("Paddle"+player.y);
             player.y = ground.y - player.height;   // Refelxion an dem Paddle  (vy invertieren) und Punkte hochzählen
             vyBall = vyBall;
             punkte = punkte +1;
@@ -176,8 +287,13 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             
           } else if (player.y >= hoehe) {
               //Ball geht unten ins aus => voheriges Lvl laden
-            }
-      System.out.println(vxBall+vyBall);
+            } else if (left==true && space==true) {
+                
+              }
+      
+      
+      
+      //System.out.println(vxBall+vyBall);
       player.x += vxBall;  // Neue Ballposition berechen  
       player.y += vyBall;
       
@@ -193,18 +309,18 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     punkte=0;
     repaint();
   }
-  
-  //Mainmethode
+    
+    //Mainmethode
   public static void main(String[] args){
-    new JumpKing();
+   new JumpKing();
   }
-  
-  //Maus- und Key-Listener Maus und Tastendruckerkennung
+    
+    //Maus- und Key-Listener Maus und Tastendruckerkennung
   @Override
   public void mouseClicked(MouseEvent e){
     
   }
-  
+    
   @Override
   public void keyReleased(KeyEvent e){
     
@@ -221,11 +337,11 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         resetHighscore(); 
       }
     
-    if (e.getKeyCode()==KeyEvent.VK_SPACE && player.y == 450 ) {
+    if (e.getKeyCode()==KeyEvent.VK_SPACE && player.y >= 880 ) {
       
       //Spieler springt (nach oben, rechts,links)
       
-      System.out.println(timer);
+     // System.out.println(timer);
       if (timer > 20) {
         timer=20;
       } // end of if
@@ -240,11 +356,11 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
       } // end of if
       
-      
+      height=timer*20;
       if (left==true) {    //Spieler springt nach links
         
         
-        player.x-=g*(timer*timer);
+        player.x-=sprungmin+(height*faktor);
         
         
         
@@ -277,35 +393,35 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     space=false;
   }
-  
-  
+    
+    
   @Override
   public void mousePressed(MouseEvent e){
   }
-  
+    
   @Override
   public void mouseReleased(MouseEvent e){
   }
-  
+    
   @Override
   public void mouseEntered(MouseEvent e){
   }
-  
+    
   @Override
   public void mouseExited(MouseEvent e){
   }
-  
+    
   @Override
   public void keyTyped(KeyEvent e){ 
   }
-  
+    
   @Override
   public void keyPressed(KeyEvent e){  
     
     
     
     
-    if(e.getKeyCode() == KeyEvent.VK_SPACE && player.y == 450){
+    if(e.getKeyCode() == KeyEvent.VK_SPACE && player.y >= 880){
       space=true;
       
       System.out.println("Y:"+player.y);
@@ -315,20 +431,24 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     } 
     
     
-    if(e.getKeyCode() == KeyEvent.VK_LEFT && player.y == 450 ){
+    if(e.getKeyCode() == KeyEvent.VK_LEFT && player.y >= 880 ){
+      
+      
+      
+      
+      left=true;
+      
       
       if (space==false) {
         player.x = player.x-10;      // Spieler nach links bewegen
       } // end of if
       
       
-      left=true;
-      
       System.out.println("left");
       
     } else {
       
-      if(e.getKeyCode() == KeyEvent.VK_RIGHT && player.y == 450 ){
+      if(e.getKeyCode() == KeyEvent.VK_RIGHT && player.y >= 880){
         
         if (space==false) {
           player.x = player.x+10;    // Spieler nach rechts bewegen
