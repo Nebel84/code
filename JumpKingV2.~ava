@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class JumpKingV2 extends JFrame implements MouseListener, KeyListener {
-    //wabdfafbebfTest
+
     JPanel hintergrundScreen;
     Rectangle gameGroundLineRectangle;
     Rectangle playerRectangle;
