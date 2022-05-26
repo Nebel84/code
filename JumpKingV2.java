@@ -5,6 +5,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class JumpKingV2 extends JFrame implements MouseListener, KeyListener {
 
@@ -17,8 +19,10 @@ public class JumpKingV2 extends JFrame implements MouseListener, KeyListener {
     final String WELCOME_TEXT = "Herzlichen willkommen zu JumpKing!";
     final String START_INSTRUCTIONS = "SPACE um zu starten!";
 
-    boolean spielGestartet;
-    boolean spielVerloren;
+    boolean spielGestartet = true;
+    boolean spielVerloren = false;
+
+    Timer timerForAnimation = new Timer();
 
     public JumpKingV2(){
         hintergrundScreen = new JPanel(){
@@ -74,10 +78,38 @@ public class JumpKingV2 extends JFrame implements MouseListener, KeyListener {
     }
 
     public void displayRunningGame (Graphics g){
+        changePlayerImg();
     }
 
     public void displayVerloren (Graphics g){
 
+    }
+    public void changePlayerImg (){
+        TimerTask timeTaskToChangeImg = new TimerTask(){
+            int i = 0;
+            public void run(){
+                i ++;
+                switch (i){
+                    case 1:
+                        System.out.println(i);
+                        //setze bild 1
+                        break;
+                    case 2:
+                        //setze bild 2
+                        System.out.println(i);
+                        break;
+                    case 3:
+                        //setze bild 3
+                        System.out.println(i);
+                        break;
+                    default:
+                        i = 0;
+                        System.out.println(i);
+                        break;
+                }
+            }
+        };
+        timerForAnimation.scheduleAtFixedRate(timeTaskToChangeImg, 0, 1000); //1000ms = 1sec
     }
 
     @Override
