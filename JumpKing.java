@@ -36,9 +36,9 @@ import javax.sound.sampled.*;
 * Erstelldatum: 21.05.2022
 *
 *Quellen:
-* 
-*  -Implemetierung vom Hintergrundbild (ver�ndert): https://stackoverflow.com/questions/12082660/background-image-for-simple-game
-*  -
+*  -Hintergrundbilder (leicht verändert)          : https://github.com/cohancarpentier/jump-king-map 
+*  -Implemetierung vom Hintergrundbild (verändert): https://stackoverflow.com/questions/12082660/background-image-for-simple-game
+*  -Implemetierung von Sounds                     : https://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java
 *  -
 *  -
 *  -
@@ -49,25 +49,18 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
   
   //Attribute 
   JPanel grafik;
-  Rectangle ground, player, wall, ground1, ground2;
-  Random rand = new Random();
-  JLabel L1;
+  Rectangle ground, player, wall, ground1, ground2;  //Hier werden Wände und Böden deklariert
   
-  //Image background;
-
-      
-  
+  public Image background, background1;              //Hier werden die Bilder deklariert (eig. unnötig) => besprechen!
    
-  public Image background;
-  public Image bg;  
   
   
-  int takt, punkte, highscore, timer,height, g, j, k;
-  final int breite = 1440, hoehe = 1080;
+  int takt, punkte, highscore, timer,height, g, j, k, i;
+  final int breite = 1440, hoehe = 1080;                    //final heißt kann nicht mehr verändert werden
   final int START_TEMPO = 1;
   int vxBall, vyBall, sprungmin=28; 
   int tempo = START_TEMPO;                                                                                               
-  boolean gestartet, faceright, faceleft, fall,ignoreground, isonground, ignoreground1;
+  boolean gestartet, faceright, faceleft, fall, isonground, absprung;
   boolean verloren, keyhold, space, left, right1, idle;
   final Color HINWEIS = new Color(102,0,153);
   double faktor=1.2;
@@ -80,51 +73,39 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
      
     
     
-    Timer zaehler = new Timer(10,ae -> doTimerTick());   // Timer: Alle 20ms wird doTimerTick aufgerufen
+    Timer zaehler = new Timer(10,ae -> doTimerTick());   // Timer: Alle 20ms wird doTimerTick() aufgerufen
     
     grafik = new JPanel() {      // Auf dieses Panel wird das Spiel gerendert
       protected void paintComponent(Graphics g){       // Wird von Swing aufgerufen um ein Neuzeichnen zu veranlassen
         
-        
-        super.paintComponent(g);    
-        Image bg = Toolkit.getDefaultToolkit().getImage("pictures\\backgrounds\\1.png");      
-        
-        
-        g.drawImage(bg, 0, 0, null);
+          
+        Image background = Toolkit.getDefaultToolkit().getImage("pictures\\backgrounds\\1.png");     //Bild laden
+        g.drawImage(background, 0, 0, null);                                                    //Bild ausgeben g.drawImage([name], [x], [y], [observer=null!])
         
         
-        if (space==false && right1==false && left==false && fall==false && faceleft==false) {
+        if (space==false && right1==false && left==false && fall==false && faceleft==false) {                 //Wenn Spieler nicht nach links/[rechts] schaut oder bewegt, sich nicht duckt/fällt => Spieler steht einfach da, schaut nach rechts (idle)
 
-          
-          
           Image idle = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idle.png");      
-          
-          
           g.drawImage(idle, player.x, player.y, null);
 
-          
-
-        }else if (space==false && right1==false && left==false && fall==false && faceright==false ) {
+       
+        }else if (space==false && right1==false && left==false && fall==false && faceright==false ) {         //Wenn Spieler nicht nach [links]/rechts schaut oder bewegt, sich nicht duckt/fällt => Spieler steht einfach da, schaut nach links (idlel)
           
           Image idlel = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idlel.png");      
-          
-          
           g.drawImage(idlel, player.x, player.y, null);
 
-        }else if (space==false && right1==true && left==true && fall==false) {
+          
+        }else if (space==false && right1==true && left==true && fall==false) {                                //Wenn Spieler nicht nach links/ UND rechts bewegt, sich nicht duckt/fällt 
           
           if (faceleft==false) {
             
           Image idle = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idle.png");      
-          
-          
-            g.drawImage(idle, player.x, player.y, null);
+          g.drawImage(idle, player.x, player.y, null);
+
 
           }else if (faceright==false) {
             
             Image idlel = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idlel.png");      
-          
-          
             g.drawImage(idlel, player.x, player.y, null);
 
 
@@ -138,63 +119,53 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         
         
-        JumpKing.this.paintPanel(g);    //  Aufruf der eigentlichen Zeichnenoperation
+        JumpKing.this.paintPanel(g);      //  Aufruf der eigentlichen Zeichnenoperation
       }
     };
     
-    add(grafik);
+    add(grafik);     //Ka 
     
     
     
     
     
-    setSize(1440, 1080);
+    setSize(1440, 1080);      //eig richtige Größe, wird unten überschrieben
     setTitle("JumpKing");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(1455, 1118);
+    setSize(1455, 1118);    //überschrieben weil, vermutlich zählt oben in GUI die weiße Zeile mit als size
     
-    /*
-    carIcon = new ImageIcon(this.getClass().getResource(""));
-    grafik
-    */
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    ground = new Rectangle(0,983, 2000, 1) ;   // Speichert die Positionsdaten des Grounds (ground =983, bzw.783!!!)
-    ground1 = new Rectangle(0,550, 385, 1) ;
+
 
     player =  new Rectangle(100,200, 93, 103) ;   // Speichert die Positionsdaten des Spielers
+    
+    //Böden   // Speichert die Positionsdaten der Böden 
+    ground = new Rectangle(0,983, 2000, 1) ;   
+    ground1 = new Rectangle(0,550, 385, 1) ;
+
+    //Wände  // Speichert die Positionsdaten der Wände 
     wall   = new Rectangle(385,550, 1, 434);
     
     
-    initGame();
-    
+    initGame();    //Aufruf von der Initialisierung
+
+    //basic Sachen (Grundgerüst)
     addMouseListener(this);
     addKeyListener(this);
     setResizable(true);
-    //setExtendedState(JFrame.MAXIMIZED_BOTH); 
-    //setUndecorated(true);
-    
     setVisible(true);
     
     
     
     
-    zaehler.start();  // Timer starten
+    zaehler.start();  // Timer starten für timer tick
   }
     
-    // Anfangswerte beim Neustart
-  private void initGame() {
-    //ground.x=90; ground.y = hoehe-50 ;
-    player.x=breite/2; player.y = hoehe/2 ;
-    verloren = false;
+    
+  private void initGame() {         // Anfangswerte beim Neustart
+    
+
+    player.x=breite/2; player.y = hoehe/2 ; //Spieler startet in der Mitte des Screens
+    verloren = false; 
     
     
     left=false;
@@ -203,9 +174,9 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    vxBall = 0 ;    // Ball 
-    vyBall = 0 ;
-    tempo = START_TEMPO;
+    vxBall = 0 ;    // Geschwindigkeit (X-Achse) des Spielers 
+    vyBall = 0 ;    // Geschwindigkeit (Y-Achse) des Spielers 
+    
     punkte = 0;
     takt = 0;
   }
@@ -221,39 +192,44 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    Color invis = new Color(255, 255, 255,140);
+    Color invis = new Color(255, 255, 255,140); //Unsichtbare Farbe (Zum Debuggen)
     
 
     //Erste Stage:
 
-    //ground
+    //Dient nur zum Debuggen! Kann eig alles weg, trotzdem da lassen
+
+
+
+    //Player
+    g.setColor(invis);
+    g.fillRect(player.x,player.y,93, 103);
+
+    //Böden
+
+    //Boden0
     g.setColor(Color.blue);
     g.fillRect(0,983, 2000, 1);
     
-    //player
-    g.setColor(invis);
-    g.fillRect(player.x,player.y,93, 103);
-    
-    //wall
-    g.setColor(Color.blue);
-    g.fillRect(385,550, 1, 434);
 
-    //Ground1
-
+    //Boden1
     g.setColor(Color.blue);
     g.fillRect(0,550, 385, 1);
 
+    
+    
+    //Wände
 
+    //Wand0
+    g.setColor(Color.blue);
+    g.fillRect(385,550, 1, 434);
 
     
-    
-    
-    
-    
-    
-    
-    
-    
+
+    //Für später wichtig: (von Hr. Herburger)
+
+    ///////////////VON HIER********************
+
     // Vor Programmstart
     if (!gestartet && !verloren ) {
       g.setColor(Color.RED);
@@ -274,19 +250,15 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       //Highscore Farb- und Schriftart-gebung
       g.setColor(Color.MAGENTA);
       g.setFont(new Font("Arial",1,30)); 
-      
-      
-      
-      
+
       //Highscore Rechnung und Ausgabe 
       if (punkte>highscore) {
         highscore = punkte;
       } 
       g.drawString("Highscore: " + highscore + " Hits! Zeit: "+ takt/50 + " "+ " Tempo:"+tempo, 20, 40);
-    }
 
-  
-    
+      
+    }
     // Der Spieler hat verloren
     if (verloren) {
       //Ausgaben der Punkte und "Verloren" wenn das Spiel verloren ist
@@ -311,12 +283,18 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       g.setColor(Color.BLACK);
       g.drawString("Achtung: Beim Schlie�en des Programms geht jeglicher Spielfortschritt verloren!", 30, 500);
     }   
-    
-    
-    int animation=player.x %100;
-    
-    
 
+    /////////////BIS HIER**********************
+    
+    //Animationen:
+    //Spieler hat einen x-Wert (4stellig) (player.x= ????)
+
+    int animation=player.x %100;   //nun wird er auf seine letzten 2 Stellen gekürzt
+    
+    
+    //Nun wird überprüft welchen Wert die 2 Stellen (0-99) haben 
+
+    //Nach Rechts laufen: Zu jedem X Wert, ein neues Bild
     if (right1==true && space==false && left==false && isonground==true) {
       
       //System.out.println("ani:"+animation);
@@ -438,7 +416,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
     }   
 
-
+    //Nach Links laufen: Zu jedem X Wert, ein neues Bild
     if (left==true && space==false && right1==false && isonground==true) {
       
       //System.out.println("aniLeft:"+animation);
@@ -561,99 +539,54 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
     }   
         
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      //System.out.println("rechts"+faceright);
-      //System.out.println("links"+faceleft);
-      
-      
-      
-      
-      
-      
+     
+ 
     
-    
-    if (space==true) {
+    if (space==true) {     //Wenn space gedrückt wird => duckt sich der Player
+
       Image squat = Toolkit.getDefaultToolkit().getImage("pictures\\player\\squat.png");      
-      
-      
       g.drawImage(squat, player.x, player.y, null);
-      
-      
-      
+
     }
     
+
+
     
-    if(isonground==false ) { //player ist in Luft (muss verbessert werden) zb if player is not on ground 
-
-
-      
-
-
-       
-
-
-        
-      
-      
-
-
-
+    if(isonground==false ) { //player ist in Luft => Fallanimation (bzw. Springanimation)
 
       fall=true;
-
       if (faceright==true) {
+
       Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\fall.png");      
-      
-      
       g.drawImage(fall, player.x, player.y, null);
  
       }else if(faceleft==true){
         
       Image falll = Toolkit.getDefaultToolkit().getImage("pictures\\player\\falll.png");      
-      
-      
       g.drawImage(falll, player.x, player.y, null);
 
       }else{
-        //für den Fall: spiel gestartet & faceright/left sind beide false
+
+        //für den Fall: Spiel gestartet & faceright/left sind beide false
         Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\fall.png");      
-      
-      
         g.drawImage(fall, player.x, player.y, null);
 
       }
       
     }else{
-
       fall=false;
     }
     
   }
   
 
-int i=0;
-  
-    // Hier wird bei jedem Timer Tick das Szenario neu berechnet und ein Neuzeichnen veranlasst
+  private void doTimerTick(){      // Hier wird bei jedem Timer Tick das Szenario neu berechnet und ein Neuzeichnen veranlasst
 
-
-  private void doTimerTick(){
-    takt = takt +1;
     
-    if (space==true) {
+
+    takt = takt +1;       //Für die Zeitmessung wie lange man spielt 
+    
+    if (space==true) {    //Timer für die Zeit wie lange man leertaste hält
       timer++;
     }else {
       timer=0;
@@ -661,154 +594,85 @@ int i=0;
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
     if (gestartet) {
-       g++;
-       player.y += g;
-       if (vyBall > 0) {
-         vyBall-=1;
-       }
 
-       
-      
+       g++;
+       player.y += g;   //Schwerkraft (lineare Steigung der Geschwindigkeit)
+
+
       if(player.y <= 0) {      
-        
-        //Spieler geht oben raus => neues Level laden (Screen)
-        
+        //Spieler geht oben raus => neues Level laden (Screen)       
       } 
-      
-          if (player.intersects(ground)) {
+
+
+      if (player.intersects(ground1)) {
             
             g=0;
+            
+            player.y = ground1.y - player.height ;
+
+            if (absprung==true) {
+              
+            } else {
+              vxBall=0;
+              vyBall=0;
+            }
+
+            isonground=true;
+            absprung=false;
+
+            
+          }else if (player.intersects(ground)) {
+            
+           
+            g=0;
             //System.out.println("Paddle"+player.y);
-            player.y = ground.y - player.height;   // basically nichts
+            player.y = ground.y - player.height ;   // basically nichts
             //vxBall=0;
             //vyBall=0;
-            punkte = punkte +1;
+            //punkte = punkte +1;
             
-            if (ignoreground==false) {
-
-
+            if (absprung==true) {            //Absprung-Flag: Damit min. 1 dotimeertick() durchgelaufen wird schwierig zu erklären
+              
+            } else {
               vxBall=0;
-              //System.out.println("NOOOO");
-            }else if (ignoreground==true) {
-              i++;
+              vyBall=0;
             }
 
-            if (i>2) {
-              ignoreground=false;
-              
-              i=0;
-            }
-
-
-            if (isonground==false) {
-              i++;
-            }
-
-            if (i>2) {
-              isonground=true;
-              i=0;
-            }
-              
-            
-
+            isonground=true;
+            absprung=false;
            
-            //Spieler ber�ht Boden nichts machen iguess  
-            
           }else{
-
-           
-
-
+           isonground=false;
           }
-          
-          if (player.intersects(wall)) {
-            isonground=false;
-            vxBall= -vxBall;
 
-            do {
+
+          if (player.intersects(wall)) {        //Wand Kollision
+
+            isonground=false;             
+            vxBall= -vxBall;                    //Vx invertieren
+
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
               
-            player.x = wall.x + 5;
+            player.x = wall.x + 5;  
 
             }while (player.intersects(wall));
 
             System.out.println("Wall");
         
           }
-          
-          if (player.intersects(ground1)) {
-            
-            g=0;
-            
-            
-            
-            System.out.println(ignoreground);
-           
-            if (ignoreground==false) {
-
-              
-              vxBall=0;
-              //System.out.println("NOOOO");
-            }else if (ignoreground==true) {
-              k++;
-            }
-
-            if (k>2) {
-              ignoreground=false;
-              
-              k=0;
-            }
-
-
-            if (isonground==false) {
-              j++;
-            }
-            
-            if (j>2) {
-              isonground=true;
-              j=0;
-            }
-            
-            
-          
-
-           
-            player.y = ground1.y - player.height;
-            
-
-            
-          }else{
-
-           
-
-        
-
-          }
-          
-          
-          
-          
+      
        
       if (player.y >= hoehe) {
-              //Ball geht unten ins aus => voheriges Lvl laden
-            } 
+          //Ball geht unten ins aus => voheriges Lvl laden
+          } 
       
-      //System.out.println("Vyball: "+vyBall);
+      
       player.x += vxBall;  // Neue Ballposition berechen  
       player.y -= vyBall;
-      //System.out.println("Vxball: "+vxBall);
-      grafik.repaint();
+      
+      grafik.repaint();   //Neuzeichnen
     }
-    
     
     
   }
@@ -833,51 +697,44 @@ int i=0;
     
   }
     
-  
-  
-  
+
   @Override
   public void keyReleased(KeyEvent e){
     
     
-    //System.out.println(right1);
-    //System.out.println(left);
-    
-    
-    
-    if (e.getKeyCode()==KeyEvent.VK_RIGHT) {   
+   
+    if (e.getKeyCode()==KeyEvent.VK_RIGHT) {   //Wenn Rechts losgelassen wird nicht springen!
       right1=false;
+      //space=false;
     }
     
-    if (e.getKeyCode()==KeyEvent.VK_LEFT) {   
+    if (e.getKeyCode()==KeyEvent.VK_LEFT) {    //Wenn Links losgelassen wird nicht springen!
       left=false;
-      
+      //space=false;
       
     }
     
     
     
-    if (e.getKeyCode()==KeyEvent.VK_SPACE) {   
+    if (e.getKeyCode()==KeyEvent.VK_SPACE) {   //Spiel starten, wenn Leertaste gedrückt wird UND Spiel nicht gestartet ist
+
       if(!gestartet) {
         initGame();
         gestartet = true;
         
-        
       }
-      
-      
       
     }  
     
-    if (e.getKeyCode()==KeyEvent.VK_SPACE && isonground==true ) {
+    if (e.getKeyCode()==KeyEvent.VK_SPACE && isonground==true ) {   //Player springt
       
 
 
 
-      try
-      {
+      try                                                                      
+      { 
       Clip clip = AudioSystem.getClip();
-      clip.open(AudioSystem.getAudioInputStream(new File("sounds\\jump.wav")));
+      clip.open(AudioSystem.getAudioInputStream(new File("sounds\\jump.wav")));    //Sound abspielen   
       clip.start();
       }
       catch (Exception exc){
@@ -886,72 +743,51 @@ int i=0;
 
 
       
-      //Spieler springt (nach oben, rechts,links)
+     
       
-      System.out.println(timer);
+      // System.out.println(timer);
+
+      //Timer (wie lange leertaste gedrückt wurde) wird umgerechent (limitiert, minimiert)
+
       if (timer > 20) {
         timer=20;
-      } // end of if
-      
-      if (timer<=5) {
+      }else if (timer<=5) {
         timer=5;
         g=5;
         
       } // end of if
-      
-      if (timer<=100) {
-        
-      } // end of if
-      
-      
+
+
+      //Hight wird noch nicht benutzt (für später)
       height=timer*20;
       
       
       if (left==true) {    //Spieler springt nach links
-        //
-        
-        //player.x-=sprungmin+(height*faktor);
-        vxBall= -timer/2;
-        ignoreground=true;
-        ignoreground1=true;
+
+        vxBall= -timer/2;   //Berechnung der X-Geschwindigkeit minus, da nach links
         System.out.println("Links");
         
       }
-      //          100
+
+
       if (right1==true) {        //Spieler springt nach Rechts
-        //player.x+=sprungmin+(height*faktor); 
-        vxBall= timer/2;
-        ignoreground=true;
-        ignoreground1=true;
+        
+        vxBall= timer/2;     //Berechnung der X-Geschwindigkeit plus, da nach links
         System.out.println("Rechts");
         
       }
       
-      
-      
-      //player.y = player.y-timer*20;  
-      vyBall=timer*2+5;
-      
 
-      timer=0;
+      vyBall=timer*2;   //Berechnung der Y-Geschwindigkeit 
+
+      timer=0;          //Werte werden resetet
+      absprung=true;
       left=false;
       right1=false;
-      
-      
-      //System.out.println("Reset");  
-      
-      
-      
-      
       isonground=false;
       
     } // end of if
-    
-    
-    
-    
-    //System.out.println("Y:"+player.y);
-    
+ 
     space=false;
   }
   
@@ -982,55 +818,41 @@ int i=0;
     
     
     
-    if(e.getKeyCode() == KeyEvent.VK_SPACE && isonground==true){
+    if(e.getKeyCode() == KeyEvent.VK_SPACE && isonground==true){          //Space wird gedrückt
       space=true;
-      
-      //System.out.println("Time"+timer);
-      //timer starten
-      //timer++;
-      
     } 
     
     
-    if(e.getKeyCode() == KeyEvent.VK_LEFT && isonground==true && right1==false ){
-      
-      
-      
-      
+    if(e.getKeyCode() == KeyEvent.VK_LEFT && isonground==true && right1==false ){   //Left_Arrow Key wird gedrückt
+
       left=true;
       
-      
-      if (space==false) {
-        player.x = player.x-10;      // Spieler nach links bewegen
-        ///left=false;
-        
+      if (space==false) {            //Spieler nach links bewegen ohne Sprung, wenn leertaste nicht gedrückt   
+
+        player.x = player.x-10;      //Sollte Verbessert werden z.B. vxBall -= 10;
+
       } // end of if
       
       
-      //System.out.println("left");
       
     } 
     
-    if(e.getKeyCode() == KeyEvent.VK_RIGHT && isonground==true && left==false ){
+    if(e.getKeyCode() == KeyEvent.VK_RIGHT && isonground==true && left==false ){   //Right_Arrow Key wird gedrückt 
       
       
       right1=true;
       System.out.println(player.x);
       
-      if (space==false) {
-        player.x = player.x+10;    // Spieler nach rechts bewegen
-        //right=false;
-        
-      } else{
+      if (space==false) {          //Spieler nach rechts bewegen ohne Sprung, wenn leertaste nicht gedrückt   
 
-         //System.out.println("right");
-      }
-      
-      
-     
+        player.x = player.x+10;    //Sollte Verbessert werden z.B. vxBall -= 10;
+
+        
+      } // end of if
+
+
     }
     
-    
-    
   }  
+
 }
