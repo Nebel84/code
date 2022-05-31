@@ -49,8 +49,11 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
   
   //Attribute 
   JPanel grafik;
-  Rectangle ground, player, wall, ground1, ground2;  //Hier werden Wände und Böden deklariert
-  
+
+  //Hier werden Wände und Böden deklariert
+  Rectangle wall, wall1, wall2, wall3, wall4, wall5;           
+  Rectangle player;
+  Rectangle ground, ground1, ground2, ground3, ground4;
   public Image background, background1;              //Hier werden die Bilder deklariert (eig. unnötig) => besprechen!
    
   
@@ -139,13 +142,21 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     player =  new Rectangle(100,200, 93, 103) ;   // Speichert die Positionsdaten des Spielers
     
     //Böden   // Speichert die Positionsdaten der Böden 
-    ground = new Rectangle(0,983, 2000, 1) ;   
+    ground  = new Rectangle(0,983, 2000, 1) ;   
     ground1 = new Rectangle(0,550, 385, 1) ;
+    ground2 = new Rectangle(1050,550, 385, 1) ;
+    ground3 = new Rectangle(550,115, 340, 1);
+    ground4 = new Rectangle(550,260, 340, 1);
 
     //Wände  // Speichert die Positionsdaten der Wände 
     wall   = new Rectangle(385,550, 1, 434);
-    
-    
+    wall1  = new Rectangle(0,0, 1, 550);
+    wall2  = new Rectangle(1050,550, 1, 434);
+    wall3  =new Rectangle(1440,0, 1, 550);
+    wall4  =new Rectangle(550,115, 1, 145);
+    wall5  =new Rectangle(890,115, 1, 145);
+
+
     initGame();    //Aufruf von der Initialisierung
 
     //basic Sachen (Grundgerüst)
@@ -216,6 +227,20 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     g.setColor(Color.blue);
     g.fillRect(0,550, 385, 1);
 
+
+    //Boden2
+    g.setColor(Color.blue);
+    g.fillRect(1050,550, 385, 1);
+
+
+    //Boden3
+    g.setColor(Color.blue);
+    g.fillRect(550,115, 340, 1);
+
+
+    //Boden4
+    g.setColor(Color.blue);
+    g.fillRect(550,260, 340, 1);
     
     
     //Wände
@@ -224,7 +249,36 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     g.setColor(Color.blue);
     g.fillRect(385,550, 1, 434);
 
-    
+
+    //Wand1
+    g.setColor(Color.blue);
+    g.fillRect(0,0, 1, 550); 
+
+
+    //Wand2
+    g.setColor(Color.blue);
+    g.fillRect(1050,550, 1, 434); 
+
+
+    //Wand3
+
+    g.setColor(Color.blue);
+    g.fillRect(1440,0, 1, 550);
+
+
+    //Wand4
+    g.setColor(Color.blue);
+    g.fillRect(550,115, 1, 145);
+
+
+
+
+
+    //Wand5
+    g.setColor(Color.blue);
+    g.fillRect(890,115, 1, 145);
+
+
 
     //Für später wichtig: (von Hr. Herburger)
 
@@ -605,11 +659,11 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       } 
 
 
-      if (player.intersects(ground1)) {
+      if (player.intersects(ground)) {
             
             g=0;
             
-            player.y = ground1.y - player.height ;
+            player.y = ground.y - player.height ;
 
             if (absprung==true) {
               
@@ -622,10 +676,10 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             absprung=false;
 
             
-          }else if (player.intersects(ground)) {
+          }else if (player.intersects(ground1)) {
 
             g=0;
-            player.y = ground.y - player.height ;   // basically nichts
+            player.y = ground1.y - player.height ;   // basically nichts
             
             
             if (absprung==true) {            //Absprung-Flag: Damit min. 1 dotimeertick() durchgelaufen wird schwierig zu erklären
@@ -638,19 +692,158 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             isonground=true;
             absprung=false;
            
-          }else{
+          }else if (player.intersects(ground2)) {
+
+            g=0;
+            player.y = ground2.y - player.height ;   // basically nichts
+            
+            
+            if (absprung==true) {            //Absprung-Flag: Damit min. 1 dotimeertick() durchgelaufen wird schwierig zu erklären
+              
+            } else {
+              vxBall=0;
+              vyBall=0;
+            }
+
+            isonground=true;
+            absprung=false;
+           
+          }else if (player.intersects(ground3)) {
+
+            g=0;
+            player.y = ground3.y - player.height ;   // basically nichts
+            
+            
+            if (absprung==true) {            //Absprung-Flag: Damit min. 1 dotimeertick() durchgelaufen wird schwierig zu erklären
+              
+            } else {
+              vxBall=0;
+              vyBall=0;
+            }
+
+            isonground=true;
+            absprung=false;
+           
+          }else if (player.intersects(ground4)) {
+
+            g=0;
+            player.y = ground4.y + player.height+100 ;   // basically nichts
+            vyBall=0;
+            
+            if (absprung==true) {            //Absprung-Flag: Damit min. 1 dotimeertick() durchgelaufen wird schwierig zu erklären
+              
+            } else {
+              vxBall=0;
+              vyBall=0;
+            }
+
+            isonground=true;
+            absprung=false;
+           
+          }
+          
+          
+          
+          else{
            isonground=false;
           }
+
+
+
+          if (player.intersects(wall5)) {        //Wand Kollision
+
+            isonground=false;             
+            vxBall= -vxBall;                    //Vx invertieren
+            player.x = wall5.x;
+
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+              
+            player.x += 5;  
+
+            }while (player.intersects(wall5));
+
+            System.out.println("Wall");
+        
+          }
+
+          if (player.intersects(wall4)) {        //Wand Kollision
+
+            isonground=false;             
+            vxBall= -vxBall;                    //Vx invertieren
+            player.x = wall4.x;
+
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+              
+            player.x -= 5;  
+
+            }while (player.intersects(wall4));
+
+            System.out.println("Wall");
+        
+          }
+
+          if (player.intersects(wall3)) {        //Wand Kollision
+
+            isonground=false;             
+            vxBall= -vxBall;                    //Vx invertieren
+            player.x = wall3.x;
+
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+              
+            player.x -= 5;  
+
+            }while (player.intersects(wall3));
+
+            System.out.println("Wall");
+        
+          }
+
+
+          if (player.intersects(wall2)) {        //Wand Kollision
+
+            isonground=false;             
+            vxBall= -vxBall;                    //Vx invertieren
+            player.x = wall2.x;
+
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+              
+            player.x -= 5;  
+
+            }while (player.intersects(wall2));
+
+            System.out.println("Wall");
+        
+          }
+          
+          
+          
+        if (player.intersects(wall1)) {        //Wand Kollision
+
+            isonground=false;             
+            vxBall= -vxBall;                    //Vx invertieren
+            player.x = wall1.x;
+
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+              
+            player.x += 5;  
+
+            }while (player.intersects(wall1));
+
+            System.out.println("Wall");
+        
+          }
+
 
 
           if (player.intersects(wall)) {        //Wand Kollision
 
             isonground=false;             
             vxBall= -vxBall;                    //Vx invertieren
+            player.x = wall.x;
 
             do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
               
-            player.x = wall.x + 5;  
+            player.x += 5;  
 
             }while (player.intersects(wall));
 
