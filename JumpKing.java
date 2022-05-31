@@ -623,14 +623,10 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
             
           }else if (player.intersects(ground)) {
-            
-           
+
             g=0;
-            //System.out.println("Paddle"+player.y);
             player.y = ground.y - player.height ;   // basically nichts
-            //vxBall=0;
-            //vyBall=0;
-            //punkte = punkte +1;
+            
             
             if (absprung==true) {            //Absprung-Flag: Damit min. 1 dotimeertick() durchgelaufen wird schwierig zu erklären
               
