@@ -9,7 +9,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class JumpKingV2 extends JFrame implements MouseListener, KeyListener {
-    //wabdfafbebfTest
   JPanel hintergrundScreen;
   Rectangle gameGroundLineRectangle;
   Rectangle playerRectangle;
@@ -18,6 +17,8 @@ public class JumpKingV2 extends JFrame implements MouseListener, KeyListener {
 
   final String WELCOME_TEXT = "Herzlichen willkommen zu JumpKing!";
   final String START_INSTRUCTIONS = "SPACE um zu starten!";
+  
+  final  Color INVIS = new Color(255, 255, 255,140); //Unsichtbare Farbe (Zum Debuggen)
 
   boolean spielGestartet;
   boolean spielVerloren;
@@ -63,6 +64,7 @@ public class JumpKingV2 extends JFrame implements MouseListener, KeyListener {
     }
     if(spielGestartet && !spielVerloren){
       displayRunningGame(g);
+      player(g);
     }
     if(spielVerloren){
       displayVerloren(g);
@@ -114,12 +116,13 @@ public class JumpKingV2 extends JFrame implements MouseListener, KeyListener {
     timerForAnimation.scheduleAtFixedRate(timeTaskToChangeImg, 0, 1000); //1000ms = 1sec
   }
   
-  public void player() {
-    
+  public void player(Graphics g) {
+    g.setColor(INVIS);
+    g.fillRect(playerRectangle.x,playerRectangle.y,93, 103);
   }
   
   public void playerMovement(int geschwindigkeit) {
-    
+    playerRectangle.x -= geschwindigkeit;
   }
 
   @Override
@@ -131,12 +134,18 @@ public class JumpKingV2 extends JFrame implements MouseListener, KeyListener {
   public void keyPressed(KeyEvent e) {
     int tastendruck=e.getKeyCode();
     
+    if (tastendruck==KeyEvent.VK_SPACE) {   //Spiel starten, wenn Leertaste gedrückt wird UND Spiel nicht gestartet ist
+      if(!spielGestartet) {
+        spielGestartet = true;
+      }
+    } 
+    
     if (tastendruck==KeyEvent.VK_LEFT) {
-      playerMovement(-5);
+      playerMovement(5);
     } // end of if
     
     if (tastendruck==KeyEvent.VK_RIGHT) {
-      playerMovement(5);
+      playerMovement(-5);
     } // end of if
      
   }
