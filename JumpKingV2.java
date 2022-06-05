@@ -152,6 +152,12 @@ public class JumpKingV2 extends JFrame implements MouseListener, KeyListener {
 
   @Override
   public void keyReleased(KeyEvent e) {
+    int tastendruck=e.getKeyCode();
+    if (tastendruck==KeyEvent.VK_LEFT){
+      playerMovement(0);
+    }
+
+
     
   }
 
