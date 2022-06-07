@@ -772,10 +772,10 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
       if (player.y >= 1118) {
         //Ball geht unten ins aus => voheriges Lvl laden
-        stage=1;
+        stage = stage -1;
         player.y -=1115;
       }else if(player.y <= 0) {    
-        stage=2;
+        stage++;
         player.y +=1115;
       } 
 
