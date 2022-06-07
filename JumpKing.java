@@ -65,7 +65,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
    
   
   
-  int takt, punkte, highscore, timer,height, g, j, k, i;
+  int takt, punkte, highscore, timer,height, gravity, j, k, i;
   final int breite = 1455, hoehe = 1118;                    //final heißt kann nicht mehr verändert werden (muss nd unbedingt sein)
   final int START_TEMPO = 1;
   int vxBall, vyBall, sprungmin=28; 
@@ -623,12 +623,19 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     if(isonground==false ) { //player ist in Luft => Fallanimation (bzw. Springanimation)
       
       fall=true;
-      if (faceright==true) {
+
+
+     
+
+      if (gravity > vyBall ) {
+        //Fallen
+
+        if (faceright==true) {
         
         Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\fall.png");      
         g.drawImage(fall, player.x, player.y, null);
-        
-      }else if(faceleft==true){
+          
+        }else if(faceleft==true){
           
           Image falll = Toolkit.getDefaultToolkit().getImage("pictures\\player\\falll.png");      
           g.drawImage(falll, player.x, player.y, null);
@@ -639,7 +646,34 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\fall.png");      
           g.drawImage(fall, player.x, player.y, null);
           
+      }
+
+      } else if (gravity < vyBall){
+        //Springen
+
+        if (faceright==true) {
+        
+          Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\jump.png");      
+          g.drawImage(fall, player.x, player.y, null);
+            
+          }else if(faceleft==true){
+            
+            Image falll = Toolkit.getDefaultToolkit().getImage("pictures\\player\\jumpl.png");      
+            g.drawImage(falll, player.x, player.y, null);
+            
+          }else{
+            
+            //für den Fall: Spiel gestartet & faceright/left sind beide false
+            Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\jump.png");      
+            g.drawImage(fall, player.x, player.y, null);
+            
         }
+
+      }
+
+        
+      
+        
       
     }else{
       fall=false;
@@ -662,8 +696,8 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
 
       if (gestartet) {
-      g++;
-      player.y += g;   //Schwerkraft (lineare Steigung der Geschwindigkeit)
+      gravity++;
+      player.y += gravity;   //Schwerkraft (lineare Steigung der Geschwindigkeit)
       }
 
       
@@ -701,7 +735,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       if (player.intersects(ground)) { 
         
 
-        if ((g > 1 && absprung==false) ) {
+        if ((gravity > 1 && absprung==false) ) {
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -717,7 +751,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         vyBall=0;
         }
         
-        g=0;
+        gravity=0;
         
         player.y = ground.y - player.height ;
         
@@ -742,7 +776,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         if ((wall.x+wall.width - player.x) > (player.y+player.height-wall.y)) {   
 
 
-          if (g > 1 && absprung==false) {
+          if (gravity > 1 && absprung==false) {
             try                                                                      
           { 
           Clip clip = AudioSystem.getClip();
@@ -758,7 +792,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           vyBall=0;
           }
 
-        g=0;
+        gravity =0;
         
         player.y = ground1.y - player.height ;
         
@@ -800,7 +834,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       }else if(player.intersects(ground1)){
 
 
-        if (g > 1 && absprung==false) {
+        if (gravity > 1 && absprung==false) {
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -815,7 +849,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         vxBall=0;
         vyBall=0;
         }
-        g=0;
+        gravity=0;
         
         player.y = ground1.y - player.height ;
         
@@ -867,7 +901,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
         if ((player.x+player.width -wall2.x ) > (player.y+player.height-wall2.y)) {   
 
-          if (g > 1 && absprung==false) {
+          if (gravity > 1 && absprung==false) {
             try                                                                      
           { 
           Clip clip = AudioSystem.getClip();
@@ -882,7 +916,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           vxBall=0;
           vyBall=0;
           }
-        g=0;
+        gravity=0;
         
         player.y = ground2.y - player.height ;
         
@@ -926,7 +960,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
       }else if(player.intersects(ground2)){
 
-        if (g > 1 && absprung==false) {
+        if (gravity > 1 && absprung==false) {
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -942,7 +976,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         vyBall=0;
         }
 
-        g=0;
+        gravity=0;
         
         player.y = ground2.y - player.height ;
         
@@ -997,7 +1031,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         if ((wall5.x+wall5.width - player.x) > (player.y+player.height-wall5.y)) {  
           
           
-          if (g > 1 && absprung==false) {
+          if (gravity > 1 && absprung==false) {
             try                                                                      
           { 
           Clip clip = AudioSystem.getClip();
@@ -1012,7 +1046,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           vxBall=0;
           vyBall=0;
           }
-        g=0;
+        gravity=0;
         
         player.y = ground4.y - player.height ;
         
@@ -1055,7 +1089,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
       }else if(player.intersects(ground4)){
 
-        if (g > 1 && absprung==false) {
+        if (gravity > 1 && absprung==false) {
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -1071,7 +1105,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         vyBall=0;
         }
 
-        g=0;
+        gravity=0;
         
         player.y = ground4.y - player.height ;
         
@@ -1092,7 +1126,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
         if ((wall5.x+wall5.width - player.x) > (player.y+player.height-wall5.y)) {   
           
-          if (g > 1  && absprung==false) {
+          if (gravity > 1  && absprung==false) {
             try                                                                      
           { 
           Clip clip = AudioSystem.getClip();
@@ -1108,7 +1142,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           vyBall=0;
           }  
           
-        g=0;
+        gravity=0;
         
         player.y = ground3.y - player.height ;
         
@@ -1151,7 +1185,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       }else if(player.intersects(ground3)){
 
 
-        if (g > 1 && absprung==false) {
+        if (gravity > 1 && absprung==false) {
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -1167,7 +1201,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         vyBall=0;
         }
 
-        g=0;
+        gravity=0;
         
         player.y = ground3.y - player.height ;
         
@@ -1220,7 +1254,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           
           
          
-          if (g > 1 && absprung==false) {
+          if (gravity > 1 && absprung==false) {
             try                                                                      
           { 
           Clip clip = AudioSystem.getClip();
@@ -1235,7 +1269,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           vxBall=0;
           vyBall=0;
           }
-        g=0;
+        gravity=0;
         
         player.y = ground3.y - player.height ;
         
@@ -1280,7 +1314,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
         
 
-        if (g > 1 && absprung==false) {
+        if (gravity > 1 && absprung==false) {
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -1296,7 +1330,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         vyBall=0;
         }
 
-        g=0;
+        gravity=0;
         
         player.y = ground3.y - player.height ;
         
@@ -1352,7 +1386,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
 
 
-          if (g > 1 && absprung==false) {
+          if (gravity > 1 && absprung==false) {
             try                                                                      
           { 
           Clip clip = AudioSystem.getClip();
@@ -1367,7 +1401,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           vxBall=0;
           vyBall=0;
           }
-        g=0;
+        gravity=0;
         
         player.y = ground4.y - player.height ;
         
@@ -1411,7 +1445,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
 
 
-        if (g > 1 && absprung==false) {
+        if (gravity > 1 && absprung==false) {
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -1427,7 +1461,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         vyBall=0;
         }
 
-        g=0;
+        gravity=0;
         
         player.y = ground4.y - player.height ;
         
@@ -1576,7 +1610,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         timer=40;
       }else if (timer <=9) {
           timer=20;
-          g=5;
+          gravity=5;
           
         }
       
