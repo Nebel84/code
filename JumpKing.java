@@ -70,7 +70,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
   final int START_TEMPO = 1;
   int vxBall, vyBall, sprungmin=28; 
   int tempo = START_TEMPO;                                                                                               
-  boolean gestartet, faceright, faceleft, fall, isonground, absprung, bevor;
+  boolean gestartet, faceright, faceleft, fall, isonground, absprung, bevor, bump;
   boolean verloren, keyhold, space, left, right1, idle;
   final Color HINWEIS = new Color(102,0,153);
   double faktor=1.2;
@@ -627,7 +627,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
      
 
-      if (gravity > vyBall ) {
+      if (gravity > vyBall && bump == false) {
         //Fallen
 
         if (faceright==true) {
@@ -648,7 +648,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           
       }
 
-      } else if (gravity < vyBall){
+      } else if (gravity < vyBall && bump ==false){
         //Springen
 
         if (faceright==true) {
@@ -673,7 +673,17 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
         
       
+      if (bump==true) {
+
+        if (faceright==true) {
+          Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\bump.png");      
+        g.drawImage(fall, player.x, player.y, null);
+        } else if(faceleft==true) {
+        Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\bumpl.png");      
+        g.drawImage(fall, player.x, player.y, null);
+        }
         
+      }  
       
     }else{
       fall=false;
@@ -732,9 +742,9 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
       
       
-      if (player.intersects(ground)) { 
+      if (player.intersects(ground) ) { 
         
-
+        
         if ((gravity > 1 && absprung==false) ) {
           try                                                                      
         { 
@@ -752,7 +762,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         }
         
         gravity=0;
-        
+        bump=false;
         player.y = ground.y - player.height ;
         
         if (absprung==true) {
@@ -771,7 +781,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
 
 
-      if (player.intersects(ground1) && player.intersects(wall)) {     //siehe png Datei
+      if (player.intersects(ground1) && player.intersects(wall) && right1==false && left==false) {     //siehe png Datei
 
         if ((wall.x+wall.width - player.x) > (player.y+player.height-wall.y)) {   
 
@@ -793,7 +803,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           }
 
         gravity =0;
-        
+        bump=false;
         player.y = ground1.y - player.height ;
         
         if (absprung==true) {
@@ -819,6 +829,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         System.out.println("Wall");
 
         if (isonground==false) {
+          bump=true;
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -833,7 +844,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
       }else if(player.intersects(ground1)){
 
-
+        
         if (gravity > 1 && absprung==false) {
           try                                                                      
         { 
@@ -850,7 +861,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         vyBall=0;
         }
         gravity=0;
-        
+        bump=false;
         player.y = ground1.y - player.height ;
         
         if (absprung==true) {
@@ -863,7 +874,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         absprung=false;
 
 
-      }else if(player.intersects(wall)){
+      }else if(player.intersects(wall) && right1==false && left==false){
 
        
         player.x = wall.x;
@@ -877,6 +888,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         System.out.println("Wall");
 
         if (isonground==false) { 
+          bump=true;
           vxBall= -vxBall/2;                    //Vx invertieren
           try                                                                      
         { 
@@ -889,6 +901,8 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         }
         }else{
           vxBall=0;
+
+          
         }
         
 
@@ -897,7 +911,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
 
 
-      if (player.intersects(ground2) && player.intersects(wall2)) {     //siehe png Datei
+      if (player.intersects(ground2) && player.intersects(wall2) && right1==false && left==false) {     //siehe png Datei
 
         if ((player.x+player.width -wall2.x ) > (player.y+player.height-wall2.y)) {   
 
@@ -917,7 +931,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           vyBall=0;
           }
         gravity=0;
-        
+        bump=false;
         player.y = ground2.y - player.height ;
         
         if (absprung==true) {
@@ -930,9 +944,9 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         absprung=false;
         
         }else if ((player.x+player.width -wall2.x ) < (player.y+player.height-wall2.y)) {
-
-         vxBall= -vxBall/2;                    //Vx invertieren
-         player.x = wall2.x;
+          
+        vxBall= -vxBall/2;                    //Vx invertieren
+        player.x = wall2.x;
         
         do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
           
@@ -944,6 +958,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
 
         if (isonground==false) {
+          bump=true;
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -977,7 +992,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         }
 
         gravity=0;
-        
+        bump=false;
         player.y = ground2.y - player.height ;
         
         if (absprung==true) {
@@ -990,7 +1005,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         absprung=false;
 
 
-      }else if(player.intersects(wall2)){
+      }else if(player.intersects(wall2) && right1==false && left==false){
 
         
         player.x = wall2.x;
@@ -1004,6 +1019,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         System.out.println("Wall");
 
         if (isonground==false) {
+          bump=true;
           vxBall= -vxBall/2;                    //Vx invertieren
           try                                                                      
         { 
@@ -1026,7 +1042,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
 
 
-      if (player.intersects(ground4) && player.intersects(wall5)) {     //siehe png Datei
+      if (player.intersects(ground4) && player.intersects(wall5) && right1==false && left==false) {     //siehe png Datei
 
         if ((wall5.x+wall5.width - player.x) > (player.y+player.height-wall5.y)) {  
           
@@ -1047,7 +1063,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           vyBall=0;
           }
         gravity=0;
-        
+        bump=false;
         player.y = ground4.y - player.height ;
         
         if (absprung==true) {
@@ -1073,6 +1089,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         System.out.println("Wall");
 
         if (isonground==false) {
+          bump=true;
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -1106,7 +1123,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         }
 
         gravity=0;
-        
+        bump=false;
         player.y = ground4.y - player.height ;
         
         if (absprung==true) {
@@ -1122,7 +1139,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       }
 
 
-      if (player.intersects(ground3) && player.intersects(wall5)) {     //siehe png Datei
+      if (player.intersects(ground3) && player.intersects(wall5) && right1==false && left==false) {     //siehe png Datei
 
         if ((wall5.x+wall5.width - player.x) > (player.y+player.height-wall5.y)) {   
           
@@ -1143,7 +1160,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           }  
           
         gravity=0;
-        
+        bump=false;
         player.y = ground3.y - player.height ;
         
         if (absprung==true) {
@@ -1169,6 +1186,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         System.out.println("Wall2");
 
         if (isonground==false) {
+          bump=true;
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -1179,6 +1197,101 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         exc.printStackTrace(System.out);
         }
         }
+        }
+        
+        
+      }else if(player.intersects(wall5) && right1==false && left==false){
+
+        
+        player.x = wall5.x;
+        
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          
+          player.x += 5;  
+          
+        }while (player.intersects(wall5));
+        
+        System.out.println("Wall1");
+
+        if (isonground==false) {
+          bump=true;
+          vxBall= -vxBall/2;                    //Vx invertieren
+          try                                                                      
+        { 
+        Clip clip = AudioSystem.getClip();
+        clip.open(AudioSystem.getAudioInputStream(new File("sounds\\wall.wav")));    //Sound abspielen   
+        clip.start();
+        }
+        catch (Exception exc){
+        exc.printStackTrace(System.out);
+        }
+        }else{
+          vxBall=0;
+        }
+
+      }
+
+
+
+      if (player.intersects(ground3) && player.intersects(wall4) && right1==false && left==false) {     //siehe png Datei
+
+        if ((player.x+player.width -wall4.x ) > (player.y+player.height-wall4.y)) { 
+          
+
+          if (gravity > 1 && absprung==false) {
+            try                                                                      
+          { 
+          Clip clip = AudioSystem.getClip();
+          clip.open(AudioSystem.getAudioInputStream(new File("sounds\\land.wav")));    //Sound abspielen   
+          clip.start();
+          }
+          catch (Exception exc){
+          exc.printStackTrace(System.out);
+          }
+          
+
+          vxBall=0;
+          vyBall=0;
+          }
+        gravity=0;
+        bump=false;
+        player.y = ground3.y - player.height ;
+        
+        if (absprung==true) {
+          
+        } else {
+          
+        }
+        
+        isonground=true;
+        absprung=false;
+        
+        }else if ((player.x+player.width -wall4.x ) < (player.y+player.height-wall4.y)) {
+
+        vxBall= -vxBall/2;                    //Vx invertieren
+        player.x = wall4.x;
+        
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          
+          player.x -= 5;  
+          
+        }while (player.intersects(wall4));
+        
+        System.out.println("Wall");
+
+        if (isonground==false) {
+          bump=true;
+          try                                                                      
+        { 
+        Clip clip = AudioSystem.getClip();
+        clip.open(AudioSystem.getAudioInputStream(new File("sounds\\wall.wav")));    //Sound abspielen   
+        clip.start();
+        }
+        catch (Exception exc){
+        exc.printStackTrace(System.out);
+        }
+        }
+
         }
         
         
@@ -1202,7 +1315,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         }
 
         gravity=0;
-        
+        bump=false;
         player.y = ground3.y - player.height ;
         
         if (absprung==true) {
@@ -1215,20 +1328,21 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         absprung=false;
 
 
-      }else if(player.intersects(wall5)){
+      }else if(player.intersects(wall4) && right1==false && left==false){
 
         
-        player.x = wall5.x;
+        player.x = wall4.x;
         
         do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
           
-          player.x += 5;  
+          player.x -= 5;  
           
-        }while (player.intersects(wall5));
+        }while (player.intersects(wall4));
         
-        System.out.println("Wall1");
+        System.out.println("Wall");
 
         if (isonground==false) {
+          bump=true;
           vxBall= -vxBall/2;                    //Vx invertieren
           try                                                                      
         { 
@@ -1246,141 +1360,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       }
 
 
-
-      if (player.intersects(ground3) && player.intersects(wall4)) {     //siehe png Datei
-
-        if ((player.x+player.width -wall4.x ) > (player.y+player.height-wall4.y)) { 
-          
-          
-          
-         
-          if (gravity > 1 && absprung==false) {
-            try                                                                      
-          { 
-          Clip clip = AudioSystem.getClip();
-          clip.open(AudioSystem.getAudioInputStream(new File("sounds\\land.wav")));    //Sound abspielen   
-          clip.start();
-          }
-          catch (Exception exc){
-          exc.printStackTrace(System.out);
-          }
-          
-
-          vxBall=0;
-          vyBall=0;
-          }
-        gravity=0;
-        
-        player.y = ground3.y - player.height ;
-        
-        if (absprung==true) {
-          
-        } else {
-          
-        }
-        
-        isonground=true;
-        absprung=false;
-        
-        }else if ((player.x+player.width -wall4.x ) < (player.y+player.height-wall4.y)) {
-
-        vxBall= -vxBall/2;                    //Vx invertieren
-        player.x = wall4.x;
-        
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
-          
-          player.x -= 5;  
-          
-        }while (player.intersects(wall4));
-        
-        System.out.println("Wall");
-
-        if (isonground==false) {
-          try                                                                      
-        { 
-        Clip clip = AudioSystem.getClip();
-        clip.open(AudioSystem.getAudioInputStream(new File("sounds\\wall.wav")));    //Sound abspielen   
-        clip.start();
-        }
-        catch (Exception exc){
-        exc.printStackTrace(System.out);
-        }
-        }
-
-        }
-        
-        
-      }else if(player.intersects(ground3)){
-
-        
-
-        if (gravity > 1 && absprung==false) {
-          try                                                                      
-        { 
-        Clip clip = AudioSystem.getClip();
-        clip.open(AudioSystem.getAudioInputStream(new File("sounds\\land.wav")));    //Sound abspielen   
-        clip.start();
-        }
-        catch (Exception exc){
-        exc.printStackTrace(System.out);
-        }
-        
-
-        vxBall=0;
-        vyBall=0;
-        }
-
-        gravity=0;
-        
-        player.y = ground3.y - player.height ;
-        
-        if (absprung==true) {
-          
-        } else {
-          
-        }
-        
-        isonground=true;
-        absprung=false;
-
-
-      }else if(player.intersects(wall4)){
-
-        
-        player.x = wall4.x;
-        
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
-          
-          player.x -= 5;  
-          
-        }while (player.intersects(wall4));
-        
-        System.out.println("Wall");
-
-        if (isonground==false) {
-          vxBall= -vxBall/2;                    //Vx invertieren
-          try                                                                      
-        { 
-        Clip clip = AudioSystem.getClip();
-        clip.open(AudioSystem.getAudioInputStream(new File("sounds\\wall.wav")));    //Sound abspielen   
-        clip.start();
-        }
-        catch (Exception exc){
-        exc.printStackTrace(System.out);
-        }
-        }else{
-          vxBall=0;
-        }
-
-      }
-
-
-
-        
-
-
-
-      if (player.intersects(ground4) && player.intersects(wall4)) {     //siehe png Datei
+      if (player.intersects(ground4) && player.intersects(wall4) && right1==false && left==false) {     //siehe png Datei
 
         if ((player.x+player.width -wall4.x ) > (player.y+player.height-wall4.y)) {   
 
@@ -1402,7 +1382,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           vyBall=0;
           }
         gravity=0;
-        
+        bump=false;
         player.y = ground4.y - player.height ;
         
         if (absprung==true) {
@@ -1428,6 +1408,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         System.out.println("Wall");
 
         if (isonground==false) {
+          bump=true;
           try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
@@ -1441,70 +1422,110 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         }
         
         
-      }else if(player.intersects(ground4)){
+      }
 
 
 
-        if (gravity > 1 && absprung==false) {
-          try                                                                      
+      if (player.intersects(wall) && isonground==true) {
+        
+        vxBall=0;
+        player.x =wall.x;
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          
+          player.x += 5;  
+          
+        }while (player.intersects(wall));
+        
+      }else if(player.intersects(wall2) && isonground==true){
+        
+        vxBall=0;
+        player.x =wall2.x;
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          
+          player.x -= 5;  
+          
+        }while (player.intersects(wall2));
+
+
+      }
+
+      if (player.intersects(wall1) && isonground==true) {
+        vxBall=0;
+        player.x =wall1.x;
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          
+          player.x += 5;  
+          
+        }while (player.intersects(wall1));
+
+      }else if (player.intersects(wall3) && isonground==true) {
+        vxBall=0;
+        player.x =wall3.x;
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          
+          player.x -= 5;  
+          
+        }while (player.intersects(wall3));
+
+      }
+
+
+      if (player.intersects(wall1) && isonground==false) {
+        
+        player.x = wall1.x;
+        
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          
+          player.x += 5;  
+          
+        }while (player.intersects(wall1));
+        
+        System.out.println("Wall");
+
+          vxBall= -vxBall/2;                    //Vx invertieren
+        bump=true;
+        try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
-        clip.open(AudioSystem.getAudioInputStream(new File("sounds\\land.wav")));    //Sound abspielen   
+        clip.open(AudioSystem.getAudioInputStream(new File("sounds\\wall.wav")));    //Sound abspielen   
         clip.start();
         }
         catch (Exception exc){
         exc.printStackTrace(System.out);
         }
         
+              
+           
+      }
 
-        vxBall=0;
-        vyBall=0;
-        }
+      if (player.intersects(wall3) && isonground==false) {
 
-        gravity=0;
-        
-        player.y = ground4.y - player.height ;
-        
-        if (absprung==true) {
-          
-        } else {
-          
-        }
-        
-        isonground=true;
-        absprung=false;
-
-
-      }else if(player.intersects(wall4)){
-
-        
-        player.x = wall2.x;
+        player.x = wall3.x;
         
         do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
           
           player.x -= 5;  
           
-        }while (player.intersects(wall4));
+        }while (player.intersects(wall3));
         
         System.out.println("Wall");
 
-        if (isonground==false) {
-          vxBall= -vxBall/2;                    //Vx invertieren
-          try                                                                      
+        vxBall= -vxBall/2;                    //Vx invertieren
+        bump=true;
+        try                                                                      
         { 
         Clip clip = AudioSystem.getClip();
         clip.open(AudioSystem.getAudioInputStream(new File("sounds\\wall.wav")));    //Sound abspielen   
         clip.start();
         }
         catch (Exception exc){
-        exc.printStackTrace(System.out);
+        exc.printStackTrace(System.out); 
         }
-
-        }else{
-          vxBall=0;
-        }
-
+        
+        
       }
+
+      
 
 
       if (player.y >= hoehe) {
