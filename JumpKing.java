@@ -61,11 +61,14 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
   Rectangle wall, wall1, wall2, wall3, wall4, wall5;           
   Rectangle player;
   Rectangle ground, ground1, ground2, ground3, ground4;
+
+
+  Rectangle s2ground;  
   public Image background, background1;                    //Hier werden die Bilder deklariert (eig. unnötig) => besprechen!
    
   
   
-  int takt, punkte, highscore, timer,height, gravity, j, k, i;
+  int takt, punkte, highscore, timer, height, stage, gravity, j, k, i;
   final int breite = 1455, hoehe = 1118;                    //final heißt kann nicht mehr verändert werden (muss nd unbedingt sein)
   final int START_TEMPO = 1;
   int vxBall, vyBall, sprungmin=28; 
@@ -91,9 +94,37 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     grafik = new JPanel() {      // Auf dieses Panel wird das Spiel gerendert
       protected void paintComponent(Graphics g){       // Wird von Swing aufgerufen um ein Neuzeichnen zu veranlassen
         
+        switch (stage) {
+          case 1:
+            
+          Image background1 = Toolkit.getDefaultToolkit().getImage("pictures\\backgrounds\\1.png");     //Bild laden
+          g.drawImage(background1, 0, 0, null);                                                    //Bild ausgeben g.drawImage([name], [x], [y], [observer=null!])
+
+            break;
+          case 2:
+
+          Image background2 = Toolkit.getDefaultToolkit().getImage("pictures\\backgrounds\\2.png");     //Bild laden
+          g.drawImage(background2, 0, 0, null); 
+
+            break;
+
+          case 3:
+
+          Image background3 = Toolkit.getDefaultToolkit().getImage("pictures\\backgrounds\\3.png");     //Bild laden
+          g.drawImage(background3, 0, 0, null); 
+
+            break;
+
+          case 4:
+
+
+            break;
+          default:
+            break;
+        }
+          
         
-        Image background = Toolkit.getDefaultToolkit().getImage("pictures\\backgrounds\\1.png");     //Bild laden
-        g.drawImage(background, 0, 0, null);                                                    //Bild ausgeben g.drawImage([name], [x], [y], [observer=null!])
+        
         
         
         if (space==false && right1==false && left==false && fall==false && faceleft==false) {                 //Wenn Spieler nicht nach links/[rechts] schaut oder bewegt, sich nicht duckt/fällt => Spieler steht einfach da, schaut nach rechts (idle)
@@ -151,6 +182,9 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     player =  new Rectangle(100,200, 73, 103) ;   // Speichert die Positionsdaten des Spielers
     
+
+
+    ///***STAGE 1***\\\
     //Böden   // Speichert die Positionsdaten der Böden 
     ground  = new Rectangle(0,983, 2000, 1) ;   
     ground1 = new Rectangle(0,550, 385, 1) ;
@@ -165,7 +199,10 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     wall3  =new Rectangle(1440,0, 1, 550);
     wall4  =new Rectangle(550,115, 1, 145);
     wall5  =new Rectangle(890,115, 1, 145);
-    
+
+
+    ///***STAGE 2***\\\
+    s2ground  = new Rectangle(882,885, 298, 1);  
     
     initGame();    //Aufruf von der Initialisierung
     
@@ -193,7 +230,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     right1=false;
     space=false;
     
-    
+    stage=1;
     
     vxBall = 0 ;    // Geschwindigkeit (X-Achse) des Spielers 
     vyBall = 0 ;    // Geschwindigkeit (Y-Achse) des Spielers 
@@ -216,7 +253,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     Color invis = new Color(255, 255, 255,140); //Unsichtbare Farbe (Zum Debuggen)
     
     
-    //Erste Stage:
+    
     
     //Dient nur zum Debuggen! Kann eig alles weg, trotzdem da lassen
     
@@ -225,9 +262,16 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     //Player
     g.setColor(invis);
     g.fillRect(player.x,player.y,73, 103);
+
+
+
+    //Erste Stage:
+    if (stage==1) {
+      
     
     //Böden
-    
+
+
     //Boden0
     g.setColor(Color.blue);
     g.fillRect(0,983, 2000, 1);
@@ -253,6 +297,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     g.fillRect(550,260, 340, 1);
     
     
+
     //Wände
     
     //Wand0
@@ -279,15 +324,30 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     //Wand4
     g.setColor(Color.blue);
     g.fillRect(550,115, 1, 145);
-    
-    
-    
-    
+ 
     
     //Wand5
     g.setColor(Color.blue);
     g.fillRect(890,115, 1, 145);
+
+  }else if (stage==2) {
+
+    g.setColor(Color.blue);
+    g.fillRect(882,885, 298, 1);
+
+    g.setColor(Color.blue);
+    g.fillRect(882,985, 298, 1);
+
+    g.setColor(Color.blue);
+    g.fillRect(882,885, 1, 100);
+
+    g.setColor(Color.blue);
+    g.fillRect(1180,885, 1, 100);
+
+
+
     
+  }
     
     
     //Für später wichtig: (von Hr. Herburger)
@@ -710,13 +770,36 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       player.y += gravity;   //Schwerkraft (lineare Steigung der Geschwindigkeit)
       }
 
-      
-      if(player.y <= 0) {      
-        //Spieler geht oben raus => neues Level laden (Screen)       
+      if (player.y >= 1118) {
+        //Ball geht unten ins aus => voheriges Lvl laden
+        stage=1;
+        player.y -=1115;
+      }else if(player.y <= 0) {    
+        stage=2;
+        player.y +=1115;
       } 
 
+      switch (stage) {
+        case 1:
+          
+          collision1();
 
-      collision();
+          break;
+        
+        case 2:
+
+          collision2();
+
+          break;
+
+        case 3:
+          
+          break;
+      
+        default:
+          break;
+      }
+      
     
     
     
@@ -734,7 +817,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
 
 
-  public void collision(){
+  public void collision1(){
 
     
 
@@ -1528,9 +1611,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
 
 
-      if (player.y >= hoehe) {
-        //Ball geht unten ins aus => voheriges Lvl laden
-      } 
+      
       
       
       player.x += vxBall;  // Neue Ballposition berechen  
@@ -1543,6 +1624,58 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     }
   
  
+
+
+  public void collision2(){
+
+    if (player.intersects(s2ground)) {
+      
+      if ((gravity > 1 && absprung==false) ) {
+        try                                                                      
+      { 
+      Clip clip = AudioSystem.getClip();
+      clip.open(AudioSystem.getAudioInputStream(new File("sounds\\land.wav")));    //Sound abspielen   
+      clip.start();
+      }
+      catch (Exception exc){
+      exc.printStackTrace(System.out);
+      }
+      
+
+      vxBall=0;
+      vyBall=0;
+      }
+      
+      gravity=0;
+      bump=false;
+      player.y = s2ground.y - player.height ;
+      
+      if (absprung==true) {
+        
+      } else {
+        
+       
+      }
+
+
+      absprung=false;
+      isonground=true;
+
+
+
+    }else{
+
+      isonground=false;
+
+    }
+
+
+
+    player.x += vxBall;  // Neue Ballposition berechen  
+    player.y -= vyBall;
+      
+    grafik.repaint();   //Neuzeichnen
+  }
 
 
   public void resetHighscore(){
