@@ -1767,6 +1767,8 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           collision6();
           break;  
 
+      
+
         default:
           break;
       }
@@ -3558,6 +3560,9 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
   }
 
 
+
+  
+
   public void resetHighscore(){
     highscore=0;
     
@@ -3730,7 +3735,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
   @Override
   public void keyPressed(KeyEvent e){  
     
-    if(e.getKeyCode() == KeyEvent.VK_DOWN){          //Eine Stage nach oben (Cheat)
+    if(e.getKeyCode() == KeyEvent.VK_DOWN && stage <=5){          //Eine Stage nach oben (Cheat)
       stage++;
     } 
     
