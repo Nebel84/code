@@ -205,11 +205,11 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     setSize(1440, 1080);      //eig richtige Größe, wird unten überschrieben
     setTitle("JumpKing");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(1455, 1118);    //überschrieben weil, vermutlich zählt oben in GUI die weiße Zeile mit als size
+    setSize(1454, 1118);    //überschrieben weil, vermutlich zählt oben in GUI die weiße Zeile mit als size
     
     
     
-    player =  new Rectangle(100,200, 73, 103) ;   // Speichert die Positionsdaten des Spielers
+    player =  new Rectangle(100,100, 73, 103) ;   // Speichert die Positionsdaten des Spielers
     
 
 
@@ -3710,21 +3710,28 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
       
       
-      System.out.println(timer);
+      System.out.println("Timer: "+timer);
 
      
 
       //Timer (wie lange leertaste gedrückt wurde) wird umgerechent (limitiert, minimiert)
       
-      if (timer > 20) {
+      if (timer > 30) {
         timer=40;
-      }else if (timer <=9) {
-          timer=20;
-          gravity=5;
-          
+      }else if (timer < 30 && timer >=10) {
+        timer=35;
+      }else if (timer <=10) {
+          timer=20;    
         }
       
-       vyBall=timer-8;   //Berechnung der Y-Geschwindigkeit 
+
+        if (timer==20) {
+          vyBall=8;
+        }else{
+
+          vyBall=timer-8;   //Berechnung der Y-Geschwindigkeit 
+        }
+       
 
 
       //Hight wird noch nicht benutzt (für später)
@@ -3735,7 +3742,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
 
         if (timer==20) {
-          vxBall= (-timer/2)-3; 
+          vxBall= (-timer/2)-7; 
         } else {
         vxBall= -timer/4;   //Berechnung der X-Geschwindigkeit minus, da nach links //Gut für max Sprünge
         }
@@ -3750,7 +3757,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       if (right1==true) {        //Spieler springt nach Rechts
         
         if (timer==20) {
-          vxBall= (timer/2)+3; 
+          vxBall= (timer/2)+7; 
         } else {
         vxBall= timer/4;   //Berechnung der X-Geschwindigkeit minus, da nach links //Gut für max Sprünge
         }
