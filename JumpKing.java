@@ -15,7 +15,7 @@ import javax.sound.sampled.*;
 /*
 * JumpKing
 *
-* Autoren: Luis Bauer, Tilo Hein, Benjamin Langlotz, Lucas Sanner
+* Autoren: Luis Bauer, Tilo Heinz, Benjamin Langlotz, Lucas Sanner;
 * Erstelldatum: 21.05.2022
 *
 *Quellen:
@@ -73,8 +73,8 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
    
   
   
-  int takt, punkte, highscore, timer, height,  gravity, j, k, i, kontostand;
-  int stage=1;
+  int takt, punkte, highscore, timer, height, j, k, i, kontostand;
+  int stage=6;
   final int breite = 1455, hoehe = 1118;                    //final heißt kann nicht mehr verändert werden (muss nd unbedingt sein)
   final int START_TEMPO = 1;
   int vxBall, vyBall, sprungmin=28; 
@@ -82,7 +82,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
   boolean gestartet, faceright, faceleft, fall, isonground, absprung, bevor, bump, dead;
   boolean verloren, keyhold, space, left, right1, idle;
   final Color HINWEIS = new Color(102,0,153);
-  double faktor=1.2, gra;
+  double faktor=1.2, gravity;
   boolean debugger= true;
   
   
@@ -535,8 +535,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
      wall[6][0] = new Rectangle(457,984,1,96);
      wall[6][1] = new Rectangle(984,984,1,96);
     
- 
-     //über y 770 gravity loss
+
  
      wall[6][100] = new Rectangle(25,0,1,1080);
      wall[6][99] = new Rectangle(1415,0,1,1080);
@@ -1232,7 +1231,21 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     g.fillRect(1415,0,1,1080);
 
   }else if (stage==6) {
-    
+
+    //Wand0
+    g.setColor(Color.blue);
+    g.fillRect(457,984,1,96); 
+    //Wand1
+    g.setColor(Color.red);
+    g.fillRect(984,984,1,96);
+
+    //Boden0
+    g.setColor(Color.red);
+    g.fillRect(457, 984, 527,1); 
+    //Boden1
+    g.setColor(Color.red);
+    g.fillRect(457, 1079, 527, 1);
+
   }
     
     } 
@@ -1678,14 +1691,12 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         if (player.y < 770 ) {
 
 
-          if (vyBall >0) {
-            vyBall=vyBall-1;
-          }
-          if (takt %3 == 0) {
-          gravity++;
+          
+          
+          gravity=gravity+0.6;
         
           player.y += gravity;   //Schwerkraft (lineare Steigung der Geschwindigkeit) vl mit vyball-
-        } 
+        
 
         } else {
 
@@ -2842,7 +2853,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             
           }while (player.intersects(wall[stage][i]));
           
-          System.out.println("Wall");
+          System.out.println("Walllol");
   
           if (isonground==false) {
             bump=true;
@@ -3328,36 +3339,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
     }
   
-    if(player.intersects(wall[stage][11]) && right1==false && left==false){
-  
-          
-      player.x = wall[stage][11].x;
-      
-      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
-        
-        player.x += 5;  
-        
-      }while (player.intersects(wall[stage][11]));
-      
-      System.out.println("Wall1");
-
-      if (isonground==false) {
-        bump=true;
-        vxBall= -vxBall/2;                    //Vx invertieren
-        try                                                                      
-      { 
-      Clip clip = AudioSystem.getClip();
-      clip.open(AudioSystem.getAudioInputStream(new File("sounds\\wall.wav")));    //Sound abspielen   
-      clip.start();
-      }
-      catch (Exception exc){
-      exc.printStackTrace(System.out);
-      }
-      }else{
-        vxBall=0;
-      }
-
-    }
+    
 
 
     player.x += vxBall;  // Neue Ballposition berechen  
@@ -3461,37 +3443,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
     }
   
-    if(player.intersects(wall[stage][11]) && right1==false && left==false){
-  
-          
-      player.x = wall[stage][11].x;
-      
-      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
-        
-        player.x += 5;  
-        
-      }while (player.intersects(wall[stage][11]));
-      
-      System.out.println("Wall1");
-
-      if (isonground==false) {
-        bump=true;
-        vxBall= -vxBall/2;                    //Vx invertieren
-        try                                                                      
-      { 
-      Clip clip = AudioSystem.getClip();
-      clip.open(AudioSystem.getAudioInputStream(new File("sounds\\wall.wav")));    //Sound abspielen   
-      clip.start();
-      }
-      catch (Exception exc){
-      exc.printStackTrace(System.out);
-      }
-      }else{
-        vxBall=0;
-      }
-
-    }
-
+   
 
     player.x += vxBall;  // Neue Ballposition berechen  
     player.y -= vyBall;
@@ -3502,6 +3454,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
 
   public void collision6(){
+
 
     collisionRectangle();
 
@@ -3594,36 +3547,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
 
     }
   
-    if(player.intersects(wall[stage][11]) && right1==false && left==false){
-  
-          
-      player.x = wall[stage][11].x;
-      
-      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
-        
-        player.x += 5;  
-        
-      }while (player.intersects(wall[stage][11]));
-      
-      System.out.println("Wall1");
-
-      if (isonground==false) {
-        bump=true;
-        vxBall= -vxBall/2;                    //Vx invertieren
-        try                                                                      
-      { 
-      Clip clip = AudioSystem.getClip();
-      clip.open(AudioSystem.getAudioInputStream(new File("sounds\\wall.wav")));    //Sound abspielen   
-      clip.start();
-      }
-      catch (Exception exc){
-      exc.printStackTrace(System.out);
-      }
-      }else{
-        vxBall=0;
-      }
-
-    }
+    
 
 
     player.x += vxBall;  // Neue Ballposition berechen  
