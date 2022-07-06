@@ -20,8 +20,8 @@ import javax.swing.JButton;
 * Erstelldatum: 21.05.2022
 *
 *Quellen:
-*  -Hintergrundbilder (leicht verändert)          : https://github.com/cohancarpentier/jump-king-map 
-*  -Implemetierung vom Hintergrundbild (verändert): https://stackoverflow.com/questions/12082660/background-image-for-simple-game
+*  -Hintergrundbilder (leicht verÃ¤ndert)          : https://github.com/cohancarpentier/jump-king-map 
+*  -Implemetierung vom Hintergrundbild (verÃ¤ndert): https://stackoverflow.com/questions/12082660/background-image-for-simple-game
 *  -Implemetierung von Sounds                     : https://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java
 *  -
 *  -
@@ -59,7 +59,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
   JPanel grafik;
  
 
-  //Hier werden Wände und Böden deklariert
+  //Hier werden WÃ¤nde und BÃ¶den deklariert
   Rectangle[] [] wall = new Rectangle[101] [101];  //1.Stage
 
   Rectangle player;
@@ -71,13 +71,13 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
   Rectangle[] coinRectangle = new Rectangle[100]; //1. Stage
   
   
-  public Image background, background1;                    //Hier werden die Bilder deklariert (eig. unnötig) => besprechen!
+  public Image background, background1;                    //Hier werden die Bilder deklariert (eig. unnÃ¶tig) => besprechen!
    
   
   
   int takt, punkte, highscore, timer, height,  gravity, j, k, i, kontostand;
   int stage=0;
-  final int breite = 1455, hoehe = 1118;                    //final heißt kann nicht mehr verändert werden (muss nd unbedingt sein)
+  final int breite = 1455, hoehe = 1118;                    //final heiÃŸt kann nicht mehr verÃ¤ndert werden (muss nd unbedingt sein)
   final int START_TEMPO = 1;
   int vxBall, vyBall, sprungmin=28; 
   int tempo = START_TEMPO;                                                                                               
@@ -109,8 +109,8 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         switch (stage) {
           case 0 : 
-            // Hier wird das Menü gemacht
-            switch (auswahlMenue) {             //Hier sind die Auswahlmöglichkeiten für das Menü 
+            // Hier wird das MenÃ¼ gemacht
+            switch (auswahlMenue) {             //Hier sind die AuswahlmÃ¶glichkeiten fÃ¼r das MenÃ¼ 
               case 0 : 
                 auswahlMenue = 3;
                 
@@ -219,19 +219,19 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         
         
-        if (space==false && right1==false && left==false && fall==false && faceleft==false && dead ==false) {                 //Wenn Spieler nicht nach links/[rechts] schaut oder bewegt, sich nicht duckt/fällt => Spieler steht einfach da, schaut nach rechts (idle)
+        if (space==false && right1==false && left==false && fall==false && faceleft==false && dead ==false) {                 //Wenn Spieler nicht nach links/[rechts] schaut oder bewegt, sich nicht duckt/fÃ¤llt => Spieler steht einfach da, schaut nach rechts (idle)
           
           Image idle = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idle.png");      
           g.drawImage(idle, player.x, player.y, null);
           
           
-        }else if (space==false && right1==false && left==false && fall==false && faceright==false && dead ==false) {         //Wenn Spieler nicht nach [links]/rechts schaut oder bewegt, sich nicht duckt/fällt => Spieler steht einfach da, schaut nach links (idlel)
+        }else if (space==false && right1==false && left==false && fall==false && faceright==false && dead ==false) {         //Wenn Spieler nicht nach [links]/rechts schaut oder bewegt, sich nicht duckt/fÃ¤llt => Spieler steht einfach da, schaut nach links (idlel)
             
             Image idlel = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idlel.png");      
             g.drawImage(idlel, player.x, player.y, null);
             
             
-          }else if (space==false && right1==true && left==true && fall==false && dead ==false) {                                //Wenn Spieler nicht nach links/ UND rechts bewegt, sich nicht duckt/fällt 
+          }else if (space==false && right1==true && left==true && fall==false && dead ==false) {                                //Wenn Spieler nicht nach links/ UND rechts bewegt, sich nicht duckt/fÃ¤llt 
               
               if (faceleft==false) {
                 
@@ -265,10 +265,10 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    setSize(1440, 1080);      //eig richtige Größe, wird unten überschrieben
+    setSize(1440, 1080);      //eig richtige GrÃ¶ÃŸe, wird unten Ã¼berschrieben
     setTitle("JumpKing");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(1455, 1118);    //überschrieben weil, vermutlich zählt oben in GUI die weiße Zeile mit als size
+    setSize(1455, 1118);    //Ã¼berschrieben weil, vermutlich zÃ¤hlt oben in GUI die weiÃŸe Zeile mit als size
     
     
     
@@ -287,14 +287,14 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     //COINS\\\
     
     ///***STAGE 1***\\\
-    //Böden   // Speichert die Positionsdaten der Böden 
+    //BÃ¶den   // Speichert die Positionsdaten der BÃ¶den 
     ground[1] [0]  = new Rectangle(0,983, 2000, 1) ;   
     ground[1] [1] = new Rectangle(0,550, 385, 1) ;
     ground[1] [2] = new Rectangle(1050,550, 385, 1) ;
     ground[1] [3] = new Rectangle(550,115, 340, 1);
     ground[1] [4] = new Rectangle(550,260, 340, 1);
     
-    //Wände  // Speichert die Positionsdaten der Wände 
+    //WÃ¤nde  // Speichert die Positionsdaten der WÃ¤nde 
     wall[1] [0]   = new Rectangle(385,550, 1, 434);
     wall[1] [1]  = new Rectangle(0,0, 1, 550);
     wall[1] [2]  = new Rectangle(1050,550, 1, 434);
@@ -324,7 +324,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    //Wände  // Speichert die Positionsdaten der Wände
+    //WÃ¤nde  // Speichert die Positionsdaten der WÃ¤nde
     wall[2][0] = new Rectangle(882,885, 1, 100 );
     wall[2][1] = new Rectangle(1180,885, 1, 100 );
     wall[2][2] = new Rectangle(765,595, 1, 100 );
@@ -373,7 +373,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    //Wände  // Speichert die Positionsdaten der Wände
+    //WÃ¤nde  // Speichert die Positionsdaten der WÃ¤nde
     wall[3][0] = new Rectangle(624,912, 1, 48);
     wall[3][1] = new Rectangle(768,912, 1, 48);
     wall[3][2] = new Rectangle(960,912, 1, 48);
@@ -444,7 +444,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    //Wände  // Speichert die Positionsdaten der Wände
+    //WÃ¤nde  // Speichert die Positionsdaten der WÃ¤nde
     wall[4][0] = new Rectangle(403, 955, 1,   125);
     wall[4][1] = new Rectangle(626, 955, 1, 125);
     
@@ -534,7 +534,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    //Wände  // Speichert die Positionsdaten der Wände
+    //WÃ¤nde  // Speichert die Positionsdaten der WÃ¤nde
     wall[5][0] = new Rectangle(335,935,1,61);
     wall[5][1] = new Rectangle(456,935,1,61);
     
@@ -594,12 +594,12 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    //Wände  // Speichert die Positionsdaten der Wände
+    //WÃ¤nde  // Speichert die Positionsdaten der WÃ¤nde
     wall[6][0] = new Rectangle(457,984,1,96);
     wall[6][1] = new Rectangle(984,984,1,96);
     
     
-    //über y 770 gravity loss
+    //Ã¼ber y 770 gravity loss
     
     wall[6][100] = new Rectangle(25,0,1,1080);
     wall[6][99] = new Rectangle(1415,0,1,1080);
@@ -614,7 +614,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     initGame();    //Aufruf von der Initialisierung
     
-    //basic Sachen (Grundgerüst)
+    //basic Sachen (GrundgerÃ¼st)
     addMouseListener(this);
     addKeyListener(this);
     setResizable(false);
@@ -623,7 +623,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    zaehler.start();  // Timer starten für timer tick
+    zaehler.start();  // Timer starten fÃ¼r timer tick
   }
     
     
@@ -679,7 +679,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       if (stage==1) {
         
         
-        //Böden
+        //BÃ¶den
         
         
         //Boden0
@@ -708,7 +708,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         
         
-        //Wände
+        //WÃ¤nde
         
         //Wand0
         g.setColor(Color.blue);
@@ -742,7 +742,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
       }else if (stage==2) {
           
-          //Böden
+          //BÃ¶den
           
           
           //Boden0
@@ -783,7 +783,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           
           
           
-          //Wände
+          //WÃ¤nde
           
           
           //Wand0
@@ -1291,7 +1291,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
                 }
       
     } 
-    //Für später wichtig: (von Hr. Herburger)
+    //FÃ¼r spÃ¤ter wichtig: (von Hr. Herburger)
     
     ///////////////VON HIER********************
     if (shop && !gestartet) {      //Hier wird die Shopauswahl gemacht
@@ -1408,7 +1408,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     //      g.drawString("SPACE um zu starten!", 120, hoehe/2-100);
     //    }
     
-    //Während des Spielens
+    //WÃ¤hrend des Spielens
     if (!verloren && gestartet) {
       //Aktueller Score
       g.setFont(new Font("Arial",1,50));                  
@@ -1460,12 +1460,12 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     //Animationen:
     //Spieler hat einen x-Wert (4stellig) (player.x= ????)
     
-    int animation=player.x %100;   //nun wird er auf seine letzten 2 Stellen gekürzt
+    int animation=player.x %100;   //nun wird er auf seine letzten 2 Stellen gekÃ¼rzt
     
     animation= animation/10;       //So kommt eine 10er Zahl heraus
     animation= animation*10;
     
-    //Nun wird überprüft welchen Wert die 2 Stellen (0-99) haben 
+    //Nun wird Ã¼berprÃ¼ft welchen Wert die 2 Stellen (0-99) haben 
     
     //Nach Rechts laufen: Zu jedem X Wert, ein neues Bild
     
@@ -1725,7 +1725,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     }
     
     
-    if (space==true) {     //Wenn space gedrückt wird => duckt sich der Player
+    if (space==true) {     //Wenn space gedrÃ¼ckt wird => duckt sich der Player
       vxBall=0;
       Image squat = Toolkit.getDefaultToolkit().getImage("pictures\\player\\squat.png");      
       g.drawImage(squat, player.x, player.y, null);
@@ -1757,7 +1757,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             
           }else{
             
-            //für den Fall: Spiel gestartet & faceright/left sind beide false
+            //fÃ¼r den Fall: Spiel gestartet & faceright/left sind beide false
             Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\fall.png");      
             g.drawImage(fall, player.x, player.y, null);
             
@@ -1778,7 +1778,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
               
             }else{
               
-              //für den Fall: Spiel gestartet & faceright/left sind beide false
+              //fÃ¼r den Fall: Spiel gestartet & faceright/left sind beide false
               Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\jump.png");      
               g.drawImage(fall, player.x, player.y, null);
               
@@ -1814,9 +1814,9 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    takt = takt +1;       //Für die Zeitmessung wie lange man spielt 
+    takt = takt +1;       //FÃ¼r die Zeitmessung wie lange man spielt 
     
-    if (space==true) {    //Timer für die Zeit wie lange man leertaste hält
+    if (space==true) {    //Timer fÃ¼r die Zeit wie lange man leertaste hÃ¤lt
       timer++;
     }else {
       timer=0;
@@ -1863,7 +1863,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       stage = stage -1;
       player.y -=1115;
     }else if(player.y <= 0) { 
-        //Ball geht oben  raus => nächstes Lvl laden   
+        //Ball geht oben  raus => nÃ¤chstes Lvl laden   
         stage= stage +1;
         player.y +=1115;
         System.out.println("Stage2");
@@ -2017,7 +2017,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             vxBall= -vxBall/2;                    //Vx invertieren
             player.x = wall[1][0].x;
             
-            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
               
               player.x += 5;  
               
@@ -2076,7 +2076,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             
             player.x = wall[1][0].x;
             
-            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
               
               player.x += 5;  
               
@@ -2145,7 +2145,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             vxBall= -vxBall/2;                    //Vx invertieren
             player.x = wall[1][2].x;
             
-            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
               
               player.x -= 5;  
               
@@ -2207,7 +2207,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             
             player.x = wall[1][2].x;
             
-            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
               
               player.x -= 5;  
               
@@ -2277,7 +2277,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             vxBall= -vxBall/2;                    //Vx invertieren
             player.x = wall[1][5].x;
             
-            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
               
               player.x += 5;  
               
@@ -2374,7 +2374,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             vxBall= -vxBall/2;                    //Vx invertieren
             player.x = wall[1][5].x;
             
-            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
               
               player.x += 5;  
               
@@ -2402,7 +2402,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           
           player.x = wall[1][5].x;
           
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x += 5;  
             
@@ -2468,7 +2468,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             vxBall= -vxBall/2;                    //Vx invertieren
             player.x = wall[1][4].x;
             
-            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
               
               player.x -= 5;  
               
@@ -2530,7 +2530,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             
             player.x = wall[1][4].x;
             
-            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
               
               player.x -= 5;  
               
@@ -2596,7 +2596,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             vxBall= -vxBall/2;                    //Vx invertieren
             player.x = wall[1][4].x;
             
-            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
               
               player.x -= 5;  
               
@@ -2627,7 +2627,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         vxBall=0;
         player.x =wall[1][0].x;
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -2637,7 +2637,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           
           vxBall=0;
           player.x =wall[1][2].x;
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x -= 5;  
             
@@ -2649,7 +2649,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       if (player.intersects(wall[1][1]) && isonground==true) {
         vxBall=0;
         player.x =wall[1][1].x;
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -2658,7 +2658,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       }else if (player.intersects(wall[1][3]) && isonground==true) {
           vxBall=0;
           player.x =wall[1][3].x;
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x -= 5;  
             
@@ -2671,7 +2671,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         player.x = wall[1][1].x;
         
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -2699,7 +2699,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         player.x = wall[1][3].x;
         
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x -= 5;  
           
@@ -2794,7 +2794,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
             vxBall= -vxBall/2;                    //Vx invertieren
             player.x = wall[stage][i].x;
             
-            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+            do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
               
               player.x -= 5;  
               
@@ -2875,7 +2875,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
                 vxBall= -vxBall/2;                    //Vx invertieren
                 player.x = wall[stage][i+1].x;
                 
-                do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+                do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
                   
                   player.x += 5;  
                   
@@ -2936,7 +2936,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
                   vxBall= -vxBall/2;                    //Vx invertieren
                   player.x = wall[stage][i+1].x;
                   
-                  do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+                  do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
                     
                     player.x += 5;  
                     
@@ -2990,7 +2990,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
                     
                     player.x = wall[stage][i].x;
                     
-                    do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+                    do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
                       
                       player.x -= 5;  
                       
@@ -3055,7 +3055,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
                     
                     player.x = wall[stage][i+1].x;
                     
-                    do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+                    do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
                       
                       player.x += 5;  
                       
@@ -3265,7 +3265,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       if (isonground==true) {
         vxBall=0;
         player.x =wall[3][100].x;
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -3277,7 +3277,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         player.x = wall[3][100].x;
         
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -3309,7 +3309,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         if (isonground==true) {
           vxBall=0;
           player.x =wall[3][99].x;
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x -= 5;  
             
@@ -3321,7 +3321,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           
           player.x = wall[3][99].x;
           
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x -= 5;  
             
@@ -3354,7 +3354,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
       player.x = wall[stage][11].x;
       
-      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
         
         player.x += 5;  
         
@@ -3398,7 +3398,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       if (isonground==true) {
         vxBall=0;
         player.x =wall[3][100].x;
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -3410,7 +3410,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         player.x = wall[3][100].x;
         
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -3442,7 +3442,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         if (isonground==true) {
           vxBall=0;
           player.x =wall[3][99].x;
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x -= 5;  
             
@@ -3454,7 +3454,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           
           player.x = wall[3][99].x;
           
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x -= 5;  
             
@@ -3487,7 +3487,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
       player.x = wall[stage][11].x;
       
-      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
         
         player.x += 5;  
         
@@ -3531,7 +3531,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       if (isonground==true) {
         vxBall=0;
         player.x =wall[5][100].x;
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -3543,7 +3543,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         player.x = wall[5][100].x;
         
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -3575,7 +3575,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         if (isonground==true) {
           vxBall=0;
           player.x =wall[5][99].x;
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x -= 5;  
             
@@ -3587,7 +3587,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           
           player.x = wall[5][99].x;
           
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x -= 5;  
             
@@ -3620,7 +3620,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
       player.x = wall[stage][11].x;
       
-      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
         
         player.x += 5;  
         
@@ -3664,7 +3664,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       if (isonground==true) {
         vxBall=0;
         player.x =wall[6][100].x;
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -3676,7 +3676,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         
         player.x = wall[6][100].x;
         
-        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+        do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
           
           player.x += 5;  
           
@@ -3708,7 +3708,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         if (isonground==true) {
           vxBall=0;
           player.x =wall[6][99].x;
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x -= 5;  
             
@@ -3720,7 +3720,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           
           player.x = wall[6][99].x;
           
-          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+          do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
             
             player.x -= 5;  
             
@@ -3753,7 +3753,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
       player.x = wall[stage][11].x;
       
-      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berührt
+      do {                                //Spieler nach rechts verschieben bis er nichtmehr die Wand berÃ¼hrt
         
         player.x += 5;  
         
@@ -3835,7 +3835,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
     
     
     
-    if (e.getKeyCode()==KeyEvent.VK_ENTER && !shop) {   //Spiel starten, wenn Leertaste gedrückt wird UND Spiel nicht gestartet ist
+    if (e.getKeyCode()==KeyEvent.VK_ENTER && !shop) {   //Spiel starten, wenn Leertaste gedrÃ¼ckt wird UND Spiel nicht gestartet ist
       
       if(auswahlMenue == 1) {
         initGame();
@@ -3852,7 +3852,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
           } // end of if
       
     }  
-    if (e.getKeyCode()==KeyEvent.VK_ENTER && shop) {   //Spiel starten, wenn Leertaste gedrückt wird UND Spiel nicht gestartet ist
+    if (e.getKeyCode()==KeyEvent.VK_ENTER && shop) {   //Spiel starten, wenn Leertaste gedrÃ¼ckt wird UND Spiel nicht gestartet ist
       
       if (auswahl == 1) {
         shop1 = true;
@@ -3891,7 +3891,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
       
       
-      //Timer (wie lange leertaste gedrückt wurde) wird umgerechent (limitiert, minimiert)
+      //Timer (wie lange leertaste gedrÃ¼ckt wurde) wird umgerechent (limitiert, minimiert)
       
       if (timer > 20) {
         timer=40;
@@ -3904,7 +3904,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       vyBall=timer-8;   //Berechnung der Y-Geschwindigkeit 
       
       
-      //Hight wird noch nicht benutzt (für später)
+      //Hight wird noch nicht benutzt (fÃ¼r spÃ¤ter)
       height=timer*20;
       
       
@@ -3914,7 +3914,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         if (timer==20) {
           vxBall= (-timer/2)-3; 
         } else {
-          vxBall= -timer/4;   //Berechnung der X-Geschwindigkeit minus, da nach links //Gut für max Sprünge
+          vxBall= -timer/4;   //Berechnung der X-Geschwindigkeit minus, da nach links //Gut fÃ¼r max SprÃ¼nge
         }
         System.out.println("Links");
         faceleft=true;
@@ -3929,7 +3929,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
         if (timer==20) {
           vxBall= (timer/2)+3; 
         } else {
-          vxBall= timer/4;   //Berechnung der X-Geschwindigkeit minus, da nach links //Gut für max Sprünge
+          vxBall= timer/4;   //Berechnung der X-Geschwindigkeit minus, da nach links //Gut fÃ¼r max SprÃ¼nge
         }
         System.out.println("Rechts");
         faceleft=false;
@@ -3976,7 +3976,7 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
   @Override
   public void keyPressed(KeyEvent e){ 
-    if (e.getKeyCode() == KeyEvent.VK_M ) {       // Abfrage Tastenkombi um ins Menü aus dem Spiel zu kommen 
+    if (e.getKeyCode() == KeyEvent.VK_M ) {       // Abfrage Tastenkombi um ins MenÃ¼ aus dem Spiel zu kommen 
       menu = true;
       stage = 0;
       grafik.repaint();
@@ -4007,18 +4007,18 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       auswahl++;
     } // end of if
     
-    if(e.getKeyCode() == KeyEvent.VK_SPACE && isonground==true){          //Space wird gedrückt
+    if(e.getKeyCode() == KeyEvent.VK_SPACE && isonground==true){          //Space wird gedrÃ¼ckt
       space=true;
     } 
     
     
-    if(e.getKeyCode() == KeyEvent.VK_LEFT && isonground==true && right1==false ){   //Left_Arrow Key wird gedrückt
+    if(e.getKeyCode() == KeyEvent.VK_LEFT && isonground==true && right1==false ){   //Left_Arrow Key wird gedrÃ¼ckt
       
       left=true;
       
       
       
-      if (space==false) {            //Spieler nach links bewegen ohne Sprung, wenn leertaste nicht gedrückt   
+      if (space==false) {            //Spieler nach links bewegen ohne Sprung, wenn leertaste nicht gedrÃ¼ckt   
         
         //player.x = player.x-10;      //Sollte Verbessert werden z.B. vxBall -= 10;
         vxBall=-5;
@@ -4028,14 +4028,14 @@ public class JumpKing extends JFrame implements  MouseListener, KeyListener {
       
     } 
     
-    if(e.getKeyCode() == KeyEvent.VK_RIGHT && isonground==true && left==false ){   //Right_Arrow Key wird gedrückt 
+    if(e.getKeyCode() == KeyEvent.VK_RIGHT && isonground==true && left==false ){   //Right_Arrow Key wird gedrÃ¼ckt 
       
       right1=true;
       
       
       System.out.println(player.x);
       
-      if (space==false) {          //Spieler nach rechts bewegen ohne Sprung, wenn leertaste nicht gedrückt   
+      if (space==false) {          //Spieler nach rechts bewegen ohne Sprung, wenn leertaste nicht gedrÃ¼ckt   
         
         //player.x = player.x+10;    //Sollte Verbessert werden z.B. vxBall -= 10;
         vxBall=5;
