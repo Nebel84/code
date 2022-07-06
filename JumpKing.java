@@ -78,7 +78,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
     int vxPlayer, vyPlayer, sprungmin = 28;
     int tempo = START_TEMPO;
     boolean gestartet, faceright, faceleft, fall, isonground, absprung, bevor, bump, dead;
-    boolean verloren, keyhold, space, left, right1, idle;
+    boolean verloren, keyhold, space, left, right1, idle, skin, skinP, skinAuswahl = false, skinPAuswahl = false;
     final Color HINWEIS = new Color(102, 0, 153);
     double faktor = 1.2, gravity;
     boolean debugger = false;
@@ -174,6 +174,11 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                         Image background2 = Toolkit.getDefaultToolkit().getImage("pictures\\backgrounds\\2.png");     //Bild laden
                         g.drawImage(background2, 0, 0, null);
 
+                        if (coinBoolean[1] == false) {
+                            Image coin = Toolkit.getDefaultToolkit().getImage("pictures\\coin\\coin.png");
+                            g.drawImage(coin, 300, 300, null);
+                        }
+
                         break;
 
                     case 3:
@@ -213,12 +218,17 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
                     Image idle = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idle.png");
                     g.drawImage(idle, player.x, player.y, null);
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
 
                 } else if (space == false && right1 == false && left == false && fall == false && faceright == false && dead == false) {         //Wenn Spieler nicht nach [links]/rechts schaut oder bewegt, sich nicht duckt/fällt => Spieler steht einfach da, schaut nach links (idlel)
                     Image idlel = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idlel.png");
-                    g.drawImage(idlel, player.x, player.y, null);
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    Image idlePL = Toolkit.getDefaultToolkit().getImage("pictures\\player\\Pinguin\\pinguin 1.png");
+                    if (skinP) {
+                        g.drawImage(idlePL, player.x, player.y, null);
+                    } else {
+                        g.drawImage(idlel, player.x, player.y, null);
+                    }
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
 
                 } else if (space == false && right1 == true && left == true && fall == false && dead == false) {                                //Wenn Spieler nicht nach links/ UND rechts bewegt, sich nicht duckt/fällt
 
@@ -226,13 +236,13 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
                         Image idle = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idle.png");
                         g.drawImage(idle, player.x, player.y, null);
-                        g.drawImage(jumpBar0, player.x-20,player.y, null);
+                        g.drawImage(jumpBar0, player.x - 20, player.y, null);
 
                     } else if (faceright == false) {
 
                         Image idlel = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idlel.png");
                         g.drawImage(idlel, player.x, player.y, null);
-                        g.drawImage(jumpBar0, player.x-20,player.y, null);
+                        g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     }
                 }
                 animation(g);
@@ -258,6 +268,10 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
         //COINS\\\
 
         coinRectangle[0] = new Rectangle(300, 300, 64, 64);
+        coinRectangle[1] = new Rectangle(870, 550, 64, 64);
+        coinRectangle[2] = new Rectangle(930, 570, 64, 64);
+        coinRectangle[3] = new Rectangle(490, 220, 64, 64);
+        coinRectangle[4] = new Rectangle(60, 680, 64, 64);
 
 
         //COINS\\\
@@ -1281,13 +1295,13 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                     Image shopWilli = Toolkit.getDefaultToolkit().getImage("Shop\\ShopWilli.png");
                     g.drawImage(shopWilli, 0, 0, null);
                     repaint();
-
+                    skinAuswahl = true;
                     break;
                 case 2:
                     Image shopPinguin = Toolkit.getDefaultToolkit().getImage("Shop\\Shop.png");
                     g.drawImage(shopPinguin, 0, 0, null);
                     repaint();
-
+                    skinPAuswahl = true;
                     break;
                 default:
 
@@ -1454,7 +1468,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 0:
 
                     Image run1 = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run1.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run1, player.x, player.y, null);
                     //setze bild 1
                     break;
@@ -1463,7 +1477,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
 
                     Image run2 = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run2.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run2, player.x, player.y, null);
                     //setze bild 2
 
@@ -1472,7 +1486,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 20:
 
                     Image run3 = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run3.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run3, player.x, player.y, null);
                     //setze bild 3
 
@@ -1481,7 +1495,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 30:
 
                     run1 = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run1.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run1, player.x, player.y, null);
                     //setze bild 3
 
@@ -1490,7 +1504,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 40:
 
                     run2 = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run2.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run2, player.x, player.y, null);
                     //setze bild 3
 
@@ -1500,7 +1514,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
 
                     run3 = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run3.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run3, player.x, player.y, null);
                     //setze bild 3
 
@@ -1509,7 +1523,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 60:
 
                     run1 = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run1.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run1, player.x, player.y, null);
                     //setze bild 3
 
@@ -1519,7 +1533,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
 
                     run2 = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run2.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run2, player.x, player.y, null);
                     //setze bild 3
 
@@ -1529,7 +1543,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
 
                     run3 = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run3.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run3, player.x, player.y, null);
                     //setze bild 3
 
@@ -1538,7 +1552,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 90:
 
                     run1 = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run1.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run1, player.x, player.y, null);
                     //setze bild 3
 
@@ -1564,7 +1578,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 0:
 
                     Image run1l = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run1l.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run1l, player.x, player.y, null);
                     //setze bild 1
                     break;
@@ -1573,7 +1587,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
 
                     Image run2l = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run2l.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run2l, player.x, player.y, null);
                     //setze bild 2
 
@@ -1582,7 +1596,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 20:
 
                     Image run3l = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run3l.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run3l, player.x, player.y, null);
                     //setze bild 3
 
@@ -1591,7 +1605,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 30:
 
                     run1l = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run1l.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run1l, player.x, player.y, null);
                     //setze bild 3
 
@@ -1600,7 +1614,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 40:
 
                     run2l = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run2l.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run2l, player.x, player.y, null);
                     //setze bild 3
 
@@ -1610,7 +1624,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
 
                     run3l = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run3l.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run3l, player.x, player.y, null);
                     //setze bild 3
 
@@ -1619,7 +1633,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 60:
 
                     run1l = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run1l.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run1l, player.x, player.y, null);
                     //setze bild 3
 
@@ -1629,7 +1643,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
 
                     run2l = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run2l.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run2l, player.x, player.y, null);
                     //setze bild 3
 
@@ -1639,7 +1653,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
 
                     run3l = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run3l.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run3l, player.x, player.y, null);
                     //setze bild 3
 
@@ -1648,7 +1662,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 case 90:
 
                     run1l = Toolkit.getDefaultToolkit().getImage("pictures\\player\\run1l.png");
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                     g.drawImage(run1l, player.x, player.y, null);
                     //setze bild 3
 
@@ -1667,7 +1681,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
             dead = true;
             Image dead = Toolkit.getDefaultToolkit().getImage("pictures\\player\\deadr.png");
             g.drawImage(dead, player.x, player.y, null);
-            g.drawImage(jumpBar0, player.x-20,player.y, null);
+            g.drawImage(jumpBar0, player.x - 20, player.y, null);
             System.out.println("DEAD!!!");
         } else {
             dead = false;
@@ -1677,7 +1691,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
         if (space == true) {     //Wenn space gedrückt wird => duckt sich der Player
             vxPlayer = 0;
             Image squat = Toolkit.getDefaultToolkit().getImage("pictures\\player\\squat.png");
-            g.drawImage(jumpBar0, player.x-20,player.y, null);
+            g.drawImage(jumpBar0, player.x - 20, player.y, null);
             g.drawImage(squat, player.x, player.y, null);
 
         }
@@ -1695,20 +1709,20 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
                     Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\fall.png");
                     g.drawImage(fall, player.x, player.y, null);
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
 
                 } else if (faceleft == true) {
 
                     Image falll = Toolkit.getDefaultToolkit().getImage("pictures\\player\\falll.png");
                     g.drawImage(falll, player.x, player.y, null);
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
 
                 } else {
 
                     //für den Fall: Spiel gestartet & faceright/left sind beide false
                     Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\fall.png");
                     g.drawImage(fall, player.x, player.y, null);
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
 
                 }
 
@@ -1719,20 +1733,20 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
                     Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\jump.png");
                     g.drawImage(fall, player.x, player.y, null);
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
 
                 } else if (faceleft == true) {
 
                     Image falll = Toolkit.getDefaultToolkit().getImage("pictures\\player\\jumpl.png");
                     g.drawImage(falll, player.x, player.y, null);
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
 
                 } else {
 
                     //für den Fall: Spiel gestartet & faceright/left sind beide false
                     Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\jump.png");
                     g.drawImage(fall, player.x, player.y, null);
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
 
                 }
 
@@ -1744,11 +1758,11 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 if (faceright == true) {
                     Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\bump.png");
                     g.drawImage(fall, player.x, player.y, null);
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                 } else if (faceleft == true) {
                     Image fall = Toolkit.getDefaultToolkit().getImage("pictures\\player\\bumpl.png");
                     g.drawImage(fall, player.x, player.y, null);
-                    g.drawImage(jumpBar0, player.x-20,player.y, null);
+                    g.drawImage(jumpBar0, player.x - 20, player.y, null);
                 }
 
             }
@@ -1841,6 +1855,20 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
                 collision2();
 
+                if (player.intersects(coinRectangle[1]) && coinBoolean[1] == false) {
+                    kontostand++;
+                    coinBoolean[1] = true;
+
+
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        clip.open(AudioSystem.getAudioInputStream(new File("sounds\\coin.wav")));    //Sound abspielen
+                        clip.start();
+                    } catch (Exception exc) {
+                        exc.printStackTrace(System.out);
+                    }
+                }
+
                 break;
 
             case 3:
@@ -1862,28 +1890,28 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
         }
     }
 
-    public void animation(Graphics g) { //TODO
-        if (timer!=0 && timer<5) {
+    public void animation(Graphics g) {
+        if (timer != 0 && timer < 10) {
             Image jumpBar1 = Toolkit.getDefaultToolkit().getImage("pictures\\Ladebalken\\Ladebalken 1.png");
             g.drawImage(jumpBar1, player.x - 20, player.y, null);
         }
-        if (timer>=5 && timer<10) {
+        if (timer >= 10 && timer < 20) {
             Image jumpBar2 = Toolkit.getDefaultToolkit().getImage("pictures\\Ladebalken\\Ladebalken 2.png");
             g.drawImage(jumpBar2, player.x - 20, player.y, null);
         }
-        if (timer>=10 && timer<20) {
+        if (timer >= 20 && timer < 30) {
             Image jumpBar3 = Toolkit.getDefaultToolkit().getImage("pictures\\Ladebalken\\Ladebalken 3.png");
             g.drawImage(jumpBar3, player.x - 20, player.y, null);
         }
-        if (timer>=20 && timer<30) {
+        if (timer >= 30 && timer < 40) {
             Image jumpBar4 = Toolkit.getDefaultToolkit().getImage("pictures\\Ladebalken\\Ladebalken 4.png");
             g.drawImage(jumpBar4, player.x - 20, player.y, null);
         }
-        if (timer>=30 && timer<35) {
+        if (timer >= 40 && timer < 50) {
             Image jumpBar1 = Toolkit.getDefaultToolkit().getImage("pictures\\Ladebalken\\Ladebalken 5.png");
             g.drawImage(jumpBar1, player.x - 20, player.y, null);
         }
-        if (timer>=35 && timer<40) {
+        if (timer >= 60) {
             Image jumpBar6 = Toolkit.getDefaultToolkit().getImage("pictures\\Ladebalken\\Ladebalken 6.png");
             g.drawImage(jumpBar6, player.x - 20, player.y, null);
         }
@@ -3596,13 +3624,21 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
             } else if (auswahlMenue == 3) {
                 System.exit(0);
             } // end of if
-
+        }
+        if (e.getKeyCode() == KeyEvent.VK_ENTER && shop) { //TODO
+            if (skinAuswahl) {
+                skin = true;
+                skinP = false;
+            } else if (skinPAuswahl && kontostand == 4) {
+                skinP = true;
+                skin = false;
+            }
         }
 
 
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {   //Spiel starten, wenn Leertaste gedrückt wird UND Spiel nicht gestartet ist
 
-            if (!gestartet) {
+            if (!gestartet && !menu && !shop) {
                 initGame();
                 gestartet = true;
 
@@ -3627,11 +3663,11 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
             //Timer (wie lange leertaste gedrückt wurde) wird umgerechent (limitiert, minimiert)
 
-            if (  timer > 30) {
+            if (timer > 40) {
                 timer = 40;
-            } else if (timer < 30 && timer >= 10) {
+            } else if (timer < 40 && timer >= 20) {
                 timer = 35;
-            } else if (timer <= 10) {
+            } else if (timer <= 20) {
                 timer = 20;
             }
 
@@ -3777,8 +3813,6 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 vxPlayer = 5;
 
             } // end of if
-
-
         }
     }
 }
