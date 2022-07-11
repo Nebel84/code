@@ -68,19 +68,15 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
     Rectangle[] coinRectangle = new Rectangle[100]; //1. Stage
 
 
-    public Image background, background1;                    //Hier werden die Bilder deklariert (eig. unnÃ¶tig) => besprechen!
-
-
-    int takt, punkte, highscore, timer, height, j, k, i, kontostand;
+    int takt, punkte, timer, height, k, kontostand;
     int stage = 0;
     final int breite = 1455, hoehe = 1118;                    //final heißt kann nicht mehr verändert werden (muss nd unbedingt sein)
     final int START_TEMPO = 1;
-    int vxPlayer, vyPlayer, sprungmin = 28;
+    int vxPlayer, vyPlayer;
     int tempo = START_TEMPO;
     boolean gestartet, faceright, faceleft, fall, isonground, absprung, bevor, bump, dead;
-    boolean verloren, keyhold, space, left, right, idle, skin, skinP, skinAuswahl = false, skinPAuswahl = false;
-    final Color HINWEIS = new Color(102, 0, 153);
-    double faktor = 1.2, gravity;
+    boolean verloren, space, left, right;
+    double  gravity;
     boolean debugger = false;
     int auswahlMenue = 1;
     boolean menu = true;
@@ -175,7 +171,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                         g.drawImage(background2, 0, 0, null);
 
                         if (coinBoolean[1] == false) {
-                            Image coin = Toolkit.getDefaultToolkit().getImage("pictures\\coin\\coin.png");   //TODO
+                            Image coin = Toolkit.getDefaultToolkit().getImage("pictures\\coin\\coin.png");
                             g.drawImage(coin, 870, 500, null);
                         }
 
@@ -233,7 +229,6 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                         break;
                 }
 
-
                 if (!space && !right && !left && !fall && !faceleft && !dead) {                 //Wenn Spieler nicht nach links/[rechts] schaut oder bewegt, sich nicht duckt/fällt => Spieler steht einfach da, schaut nach rechts (idle)
 
                     Image idle = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idle.png");
@@ -242,12 +237,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
                 } else if (!space && !right && !left && !fall && !faceright && !dead) {         //Wenn Spieler nicht nach [links]/rechts schaut oder bewegt, sich nicht duckt/fällt => Spieler steht einfach da, schaut nach links (idlel)
                     Image idlel = Toolkit.getDefaultToolkit().getImage("pictures\\player\\idlel.png");
-                    Image idlePL = Toolkit.getDefaultToolkit().getImage("pictures\\player\\Pinguin\\pinguin 1.png");
-                    if (skinP) {
-                        g.drawImage(idlePL, player.x, player.y, null);
-                    } else {
-                        g.drawImage(idlel, player.x, player.y, null);
-                    }
+                    g.drawImage(idlel, player.x, player.y, null);
                     g.drawImage(jumpBar0, player.x - 20, player.y, null);
 
                 } else if (space == false && right == true && left == true && fall == false && dead == false) {                                //Wenn Spieler nicht nach links/ UND rechts bewegt, sich nicht duckt/fällt
@@ -287,7 +277,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
         //COINS\\\
 
-        coinRectangle[0] = new Rectangle(300, 300, 64, 64);
+        coinRectangle[0] = new Rectangle(300, 300, 64, 64);         //Position der Münzen
         coinRectangle[1] = new Rectangle(870, 500, 64, 64);
         coinRectangle[2] = new Rectangle(930, 500, 64, 64);
         coinRectangle[3] = new Rectangle(480, 150, 64, 64);
@@ -710,7 +700,6 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
 
                 //Wand3
-
                 g.setColor(Color.blue);
                 g.fillRect(1440, 0, 1, 550);
 
@@ -1308,18 +1297,16 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                     Image shopWilli = Toolkit.getDefaultToolkit().getImage("Shop\\ShopWilli.png");
                     g.drawImage(shopWilli, 0, 0, null);
                     repaint();
-                    skinAuswahl = true;
                     break;
                 case 2:
                     Image shopPinguin = Toolkit.getDefaultToolkit().getImage("Shop\\Shop.png");
                     g.drawImage(shopPinguin, 0, 0, null);
                     repaint();
-                    skinPAuswahl = true;
                     break;
                 default:
 
             } // end of switch
-            switch (auswahl) {
+            switch (auswahl) {        // Auswahl der Shop Imgs
 
                 case 3:
 
@@ -1345,7 +1332,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
         if (menu && !gestartet) {
 
-            switch (auswahlMenue) {
+            switch (auswahlMenue) {     //Auswahl der Menü Imgs
                 case 0:
                     auswahlMenue = 3;
 
@@ -1366,7 +1353,6 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                     g.drawImage(menu3, 0, 0, null);
                     repaint();
                     break;
-
 
                 default:
 
@@ -1397,18 +1383,6 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
             } // end of switch
         } // end of if
-
-
-        // Vor Programmstart
-        //    if (!gestartet && !verloren ) {
-        //
-        //  //        g.setColor(Color.RED);
-        //      g.setFont(new Font("Arial",1,50));
-        //      g.drawString("Herzlichen willkommen zu JumpKing!", 150, hoehe/2-350);
-        //      g.setColor(Color.white);
-        //      g.setFont(new Font("Arial",1,50));
-        //      g.drawString("SPACE um zu starten!", 120, hoehe/2-100);
-        //    }
 
         //Während des Spielens
         if (!verloren && gestartet) {
@@ -1636,7 +1610,6 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
                     break;
 
-
                 default:
 
                     break;
@@ -1662,7 +1635,6 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
             g.drawImage(squat, player.x, player.y, null);
 
         }
-
 
         if (!isonground) { //player ist in Luft => Fallanimation (bzw. Springanimation)
 
@@ -1799,7 +1771,7 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
 
                 collision1();
 
-                if (player.intersects(coinRectangle[0]) && coinBoolean[0] == false) {
+                if (player.intersects(coinRectangle[0]) && coinBoolean[0] == false) {               //Collision with coin
                     kontostand++;
                     coinBoolean[0] = true;
 
@@ -1888,13 +1860,12 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
             case 6:
                 collision6();
 
-                if (player.intersects(coinRectangle[5]) && coinBoolean[5] == false) {
+                if (player.intersects(coinRectangle[5]) && coinBoolean[5] == false) { //TODO
                     coinBoolean[5] = true;
-
 
                     try {
                         Clip clip = AudioSystem.getClip();
-                        clip.open(AudioSystem.getAudioInputStream(new File("sounds\\coin.wav")));    //Sound abspielen
+                        clip.open(AudioSystem.getAudioInputStream(new File("sounds\\endmusic.wav")));    //Sound abspielen
                         clip.start();
                     } catch (Exception exc) {
                         exc.printStackTrace(System.out);
@@ -3223,16 +3194,6 @@ public class JumpKing extends JFrame implements MouseListener, KeyListener {
                 System.exit(0);
             } // end of if
         }
-        if (e.getKeyCode() == KeyEvent.VK_ENTER && shop) { //TODO
-            if (skinAuswahl) {
-                skin = true;
-                skinP = false;
-            } else if (skinPAuswahl && kontostand == 4) {
-                skinP = true;
-                skin = false;
-            }
-        }
-
 
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {   //Spiel starten, wenn Leertaste gedrückt wird UND Spiel nicht gestartet ist
 
